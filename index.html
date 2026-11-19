@@ -1307,7 +1307,11 @@
     .gym-pair-column .gym-mode-set input { font-size:1rem; padding:7px 2px; }
     .gym-pair-column .gym-mode-set button { font-size:.78rem; padding:6px 3px; }
     @media(max-width:520px){ .gym-pair-grid{gap:6px}.gym-pair-column{padding:7px 5px}.gym-pair-column .gym-mode-ex-title{font-size:.92rem}.gym-pair-column .gym-mode-muscle{font-size:.75rem}.gym-pair-column .gym-mode-set label{font-size:.67rem}.gym-pair-column .gym-mode-set input{font-size:.9rem}.gym-pair-column .gym-mode-prev{font-size:.62rem} }
-    .gym-mode-ex-title { font-size:clamp(1.35rem, 5vw, 2rem); font-weight:950; line-height:1.15; margin:4px 0; }
+    .gym-mode-ex-title { display:block; width:100%; max-width:100%; min-width:0; box-sizing:border-box; writing-mode:horizontal-tb; text-orientation:mixed; white-space:normal; overflow-wrap:break-word; word-break:normal; font-size:clamp(1.35rem, 5vw, 2rem); font-weight:950; line-height:1.15; margin:4px 0; }
+    .gym-pair-column .gym-mode-ex-title { display:block; width:100%; min-width:0; writing-mode:horizontal-tb; white-space:normal; overflow-wrap:anywhere; word-break:normal; }
+    .gym-mode-card > * { min-width:0; }
+    .gym-mode-card .exercise-atlas > div { min-width:0; }
+    .atlas-steps, .atlas-step { min-width:0; }
     .gym-mode-muscle { color:var(--text-muted); font-size:.95rem; margin-bottom:12px; }
     .gym-mode-illustration { max-height:210px; display:flex; justify-content:center; overflow:hidden; margin:4px auto 12px; }
     .gym-mode-illustration svg { max-height:210px; max-width:100%; }
@@ -1377,7 +1381,7 @@
     }
   
     /* Atlante didattico esercizi: anatomia schematica e fasi */
-    .exercise-atlas{display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center;margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)}
+    .exercise-atlas{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;align-items:center;margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);width:100%;box-sizing:border-box;min-width:0}
     .atlas-figure{width:100px;height:128px;display:block}
     .atlas-figure .body-part{fill:#cbd5e1;stroke:#64748b;stroke-width:1.2}
     .atlas-figure .target{fill:#fb7185;stroke:#be123c;stroke-width:1.4}
@@ -1389,6 +1393,31 @@
     .atlas-step b{display:block;margin-bottom:2px;color:var(--brand-secondary)}
     @media(max-width:520px){.exercise-atlas{grid-template-columns:82px 1fr;gap:7px;padding:8px}.atlas-figure{width:82px;height:115px}.atlas-steps{grid-template-columns:1fr}}
 
+
+    /* FIX FORZATO: titoli Modalita' Palestra sempre orizzontali e a larghezza piena */
+    #gymModeContent .gym-mode-card { display:block !important; width:100% !important; box-sizing:border-box !important; }
+    #gymModeContent .gym-mode-card h2.gym-mode-ex-title,
+    #gymModeContent .gym-pair-column h3.gym-mode-ex-title {
+      display:block !important; position:static !important; float:none !important;
+      flex:none !important; grid-column:1 / -1 !important; width:100% !important;
+      max-width:100% !important; min-width:0 !important; height:auto !important;
+      writing-mode:horizontal-tb !important; text-orientation:mixed !important;
+      transform:none !important; rotate:none !important; white-space:normal !important;
+      word-break:normal !important; overflow-wrap:anywhere !important;
+      text-align:left !important; line-height:1.2 !important; margin:8px 0 !important;
+      box-sizing:border-box !important;
+    }
+    #gymModeContent .gym-mode-muscle { display:block !important; width:100% !important; }
+    #gymModeContent .exercise-atlas { display:block !important; width:100% !important; max-width:100% !important; clear:both !important; }
+
+
+/* HARD STRUCTURAL FIX: gym exercise card forced to vertical stack; prevent flex/grid squeeze of exercise titles */
+#gymModeContent > .gym-mode-card { display:flex !important; flex-direction:column !important; align-items:stretch !important; justify-content:flex-start !important; width:100% !important; min-width:0 !important; }
+#gymModeContent > .gym-mode-card > h2.gym-mode-ex-title { display:block !important; flex:0 0 auto !important; align-self:stretch !important; width:100% !important; min-width:100% !important; max-width:100% !important; position:relative !important; inset:auto !important; writing-mode:horizontal-tb !important; text-orientation:mixed !important; transform:none !important; rotate:0deg !important; white-space:normal !important; word-break:normal !important; overflow-wrap:break-word !important; text-align:left !important; font-size:clamp(1.15rem,2vw,1.65rem) !important; line-height:1.25 !important; }
+#gymModeContent > .gym-mode-card > .gym-mode-muscle { display:block !important; flex:0 0 auto !important; width:100% !important; min-width:0 !important; }
+#gymModeContent > .gym-mode-card > .exercise-atlas { display:grid !important; grid-template-columns:100px minmax(0,1fr) !important; align-self:stretch !important; width:100% !important; min-width:0 !important; }
+#gymModeContent .gym-pair-column { display:flex !important; flex-direction:column !important; align-items:stretch !important; min-width:0 !important; }
+#gymModeContent .gym-pair-column > h3.gym-mode-ex-title { display:block !important; flex:0 0 auto !important; align-self:stretch !important; width:100% !important; min-width:100% !important; max-width:100% !important; writing-mode:horizontal-tb !important; text-orientation:mixed !important; transform:none !important; rotate:0deg !important; white-space:normal !important; word-break:normal !important; overflow-wrap:break-word !important; text-align:left !important; line-height:1.2 !important; }
 </style>
 </head>
 <body>
