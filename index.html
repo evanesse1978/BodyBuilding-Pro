@@ -1292,6 +1292,21 @@
     .gym-mode-progress { height:7px; background:var(--surface-3); border-radius:999px; overflow:hidden; margin-bottom:14px; }
     .gym-mode-progress > div { height:100%; background:var(--brand-gradient); width:0%; transition:width .2s; }
     .gym-mode-card { background:var(--surface-1); border:1px solid var(--border-strong); border-radius:20px; padding:16px; box-shadow:var(--shadow-card); }
+    .gym-pair-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; align-items:start; }
+    .gym-pair-column { min-width:0; border:2px solid var(--border-strong); border-radius:16px; padding:10px; background:var(--surface-1); }
+    .gym-pair-column.active { border-color:var(--brand-secondary); box-shadow:0 0 0 2px color-mix(in srgb,var(--brand-secondary) 18%,transparent); }
+    .gym-pair-heading { display:flex; align-items:center; gap:7px; font-weight:950; margin-bottom:8px; }
+    .gym-pair-arrow { display:flex; align-items:center; justify-content:center; gap:8px; padding:8px; margin:8px 0; border-radius:12px; background:var(--surface-2); font-weight:900; color:var(--brand-secondary); }
+    .gym-pair-column .gym-mode-ex-title { font-size:1.05rem; min-height:2.4em; }
+    .gym-pair-column .gym-mode-illustration { max-height:115px; }
+    .gym-pair-column .gym-mode-illustration svg { max-height:115px; }
+    .gym-pair-column .gym-mode-set-grid { grid-template-columns:1fr; }
+    .gym-pair-column .gym-mode-set { padding:8px 6px; }
+    .gym-pair-column .gym-mode-stepper { grid-template-columns:30px minmax(0,1fr) 30px; gap:3px; }
+    .gym-pair-column .gym-mode-stepper button { min-height:38px; }
+    .gym-pair-column .gym-mode-set input { font-size:1rem; padding:7px 2px; }
+    .gym-pair-column .gym-mode-set button { font-size:.78rem; padding:6px 3px; }
+    @media(max-width:520px){ .gym-pair-grid{gap:6px}.gym-pair-column{padding:7px 5px}.gym-pair-column .gym-mode-ex-title{font-size:.92rem}.gym-pair-column .gym-mode-muscle{font-size:.75rem}.gym-pair-column .gym-mode-set label{font-size:.67rem}.gym-pair-column .gym-mode-set input{font-size:.9rem}.gym-pair-column .gym-mode-prev{font-size:.62rem} }
     .gym-mode-ex-title { font-size:clamp(1.35rem, 5vw, 2rem); font-weight:950; line-height:1.15; margin:4px 0; }
     .gym-mode-muscle { color:var(--text-muted); font-size:.95rem; margin-bottom:12px; }
     .gym-mode-illustration { max-height:210px; display:flex; justify-content:center; overflow:hidden; margin:4px auto 12px; }
@@ -2660,7 +2675,7 @@
     function startGymMode(dayId) {
       const day = state.days.find(d => d.id === dayId);
       if (!day || !day.exercises.length) { showToast('Inserisci prima gli esercizi nella scheda.'); return; }
-      gymMode = { dayId, exerciseIndex:0, completedSets:{}, rpe:{}, notes:{}, supersets:[], wakeLock:null, keepScreen:true, startedAt:Date.now(), substituteOpen:false, substituteQuery:'', showSummary:false };
+      gymMode = { dayId, exerciseIndex:0, completedSets:{}, rpe:{}, notes:{}, supersets:Array.isArray(day.supersets)?day.supersets.map(p=>p.slice()):[], wakeLock:null, keepScreen:true, startedAt:Date.now(), substituteOpen:false, substituteQuery:'', showSummary:false };
       document.getElementById('gymModeOverlay').classList.add('open');
       document.body.style.overflow='hidden';
       const wakeToggle=document.getElementById('gymWakeToggle'); if(wakeToggle) wakeToggle.checked=true;
@@ -2676,6 +2691,8 @@
       const day=state.days.find(d=>d.id===gymMode.dayId); if(!day) return exitGymMode();
       if(gymMode.showSummary) return renderGymModeSummary(day);
       const idx=gymMode.exerciseIndex, item=day.exercises[idx]; if(!item) return;
+      const pair=gymModePairFor(idx);
+      if(pair) return renderGymModeSuperset(day,pair);
       const ex=getExerciseById(item.exId), svg=SVG_ICONS[ex.svg]||SVG_ICONS.bench_press;
       document.getElementById('gymModeDayLabel').textContent=`${day.name} • ${idx+1}/${day.exercises.length}`;
       document.getElementById('gymModeProgressBar').style.width=((idx+1)/day.exercises.length*100)+'%';
@@ -2714,17 +2731,58 @@
     function gymModeIsSuperset(index){ return gymMode.supersets.some(pair=>pair.includes(index)); }
     function gymModeToggleSuperset(){
       const d=state.days.find(x=>x.id===gymMode.dayId); if(!d)return;
-      const i=gymMode.exerciseIndex;
-      if(i>=d.exercises.length-1){showToast('Per creare una superserie serve un esercizio successivo.');return;}
-      const existing=gymMode.supersets.find(pair=>pair.includes(i));
-      if(existing) gymMode.supersets=gymMode.supersets.filter(pair=>pair!==existing);
+      toggleDaySuperset(gymMode.dayId,gymMode.exerciseIndex);
+      gymMode.supersets=Array.isArray(d.supersets)?d.supersets.map(p=>p.slice()):[];
+      renderGymMode();
+    }
+    function gymModeRenderPairColumn(day,exIdx,letter){
+      const item=day.exercises[exIdx], ex=getExerciseById(item.exId), svg=SVG_ICONS[ex.svg]||SVG_ICONS.bench_press;
+      const prev=getPreviousExerciseLog(item.exId);
+      const sets=item.sets.map((set,si)=>{
+        const done=!!gymMode.completedSets[`${exIdx}_${si}`], prevSet=prev?.sets?.[si];
+        const prevLine=prevSet?`Prec: ${escapeHtml(prevSet.kg||'—')} kg × ${escapeHtml(prevSet.reps||'—')}`:'—';
+        return `<div class="gym-mode-set ${done?'done':''}"><label>Serie ${si+1} ${done?'✓':''}</label>
+          <div class="gym-mode-stepper"><button onclick="gymModeAdjustPairSet(${exIdx},${si},'kg',-2.5)">−</button><input inputmode="decimal" value="${escapeHtml(set.kg||'')}" placeholder="kg" onchange="updateSetField('${day.id}',${exIdx},${si},'kg',this.value)"/><button onclick="gymModeAdjustPairSet(${exIdx},${si},'kg',2.5)">+</button></div>
+          <div class="gym-mode-stepper"><button onclick="gymModeAdjustPairSet(${exIdx},${si},'reps',-1)">−</button><input inputmode="numeric" value="${escapeHtml(set.reps||'')}" placeholder="rip" onchange="updateSetField('${day.id}',${exIdx},${si},'reps',this.value)"/><button onclick="gymModeAdjustPairSet(${exIdx},${si},'reps',1)">+</button></div>
+          <div class="gym-mode-prev">${prevLine}</div>
+          <button class="btn ${done?'btn-success':'btn-primary'}" ${done?'':' ' } onclick="gymModeTogglePairSet(${exIdx},${si})">${done?'✓ Registrata':`Completa ${letter} · serie ${si+1}`}</button></div>`;
+      }).join('');
+      const completed=item.sets.filter((_,si)=>gymMode.completedSets[`${exIdx}_${si}`]).length;
+      return `<section class="gym-pair-column ${gymMode.exerciseIndex===exIdx?'active':''}"><div class="gym-pair-heading"><span class="badge">${letter}</span> ${letter==='A'?'Primo esercizio':'Secondo esercizio'}</div><h3 class="gym-mode-ex-title">${escapeHtml(ex.name)}</h3><div class="gym-mode-muscle">${escapeHtml(ex.muscle)}</div><div class="gym-mode-illustration">${svg}</div><div style="font-size:.75rem;font-weight:850;margin:6px 0">${completed}/${item.sets.length} serie</div><div class="gym-mode-set-grid">${sets}</div><label style="display:block;font-size:.75rem;font-weight:800">Note</label><textarea class="input-ctrl" rows="2" style="width:100%;box-sizing:border-box" oninput="gymModeSetNote(${exIdx},this.value)">${escapeHtml(gymMode.notes[exIdx]||item.note||'')}</textarea></section>`;
+    }
+    function renderGymModeSuperset(day,pair){
+      const [a,b]=pair, count=Math.max(day.exercises[a].sets.length,day.exercises[b].sets.length);
+      document.getElementById('gymModeDayLabel').textContent=`${day.name} • Superserie A1/A2`;
+      document.getElementById('gymModeProgressBar').style.width=((Math.max(a,b)+1)/day.exercises.length*100)+'%';
+      const bottom=document.querySelector('.gym-mode-bottom');if(bottom)bottom.style.display='grid';
+      document.getElementById('gymModeContent').innerHTML=`<div class="gym-mode-card"><div class="gym-pair-arrow">A1 <span>⟶</span> A2 <span style="font-size:.75rem;color:var(--text-muted)">• recupero dopo A2</span></div><div class="gym-pair-grid">${gymModeRenderPairColumn(day,a,'A1')}${gymModeRenderPairColumn(day,b,'A2')}</div><button class="btn" style="width:100%;margin-top:10px" onclick="gymModeToggleSuperset()">Scollega questa superserie</button><div class="gym-mode-timer"><small>Recupero dopo la coppia</small><br><strong id="gymModeTimerReadout">${document.getElementById('timerDisplay').textContent}</strong></div><div class="gym-mode-action-row"><button class="btn" onclick="gymMode.exerciseIndex=${a};renderGymMode()">Vai ad A1</button><button class="btn" onclick="gymMode.exerciseIndex=${b};renderGymMode()">Vai ad A2</button></div><div style="text-align:center;font-size:.8rem;color:var(--text-muted);margin-top:8px">Sequenza prevista: A1 serie 1 → A2 serie 1 → recupero → A1 serie 2 → A2 serie 2… (${count} giri)</div></div>`;
+    }
+    function gymModeAdjustPairSet(exIdx,setIndex,field,delta){
+      const d=state.days.find(x=>x.id===gymMode.dayId);if(!d)return;
+      const set=d.exercises[exIdx]?.sets[setIndex];if(!set)return;
+      const cur=parseFloat(String(set[field]||'').replace(',','.'))||0;
+      const next=Math.max(0,field==='kg'?Math.round((cur+delta)*100)/100:Math.round(cur+delta));
+      set[field]=field==='kg'?String(next).replace('.',','):String(next);saveState();renderGymMode();
+    }
+    function gymModeTogglePairSet(exIdx,setIndex){
+      const d=state.days.find(x=>x.id===gymMode.dayId),pair=gymModePairFor(exIdx);if(!d||!pair)return;
+      const [a,b]=pair,key=`${exIdx}_${setIndex}`,other=exIdx===a?b:a;
+      if(gymMode.completedSets[key]){delete gymMode.completedSets[key];stopRestTimer();gymMode.exerciseIndex=exIdx;renderGymMode();return;}
+      if(exIdx===b&&!gymMode.completedSets[`${a}_${setIndex}`]){showToast('Completa prima la serie A1 corrispondente.');return;}
+      gymMode.completedSets[key]=true;
+      if(exIdx===a&&d.exercises[b].sets[setIndex]){gymMode.exerciseIndex=b;renderGymMode();return;}
+      startRestTimer(d.exercises[b].rest||d.exercises[a].rest||'90s');
+      const next=setIndex+1;
+      if(d.exercises[a].sets[next]) gymMode.exerciseIndex=a;
+      else if(d.exercises[b].sets[next]) gymMode.exerciseIndex=b;
       else {
-        gymMode.supersets=gymMode.supersets.filter(pair=>pair[0]!==i && pair[1]!==i && pair[0]!==i+1 && pair[1]!==i+1);
-        gymMode.supersets.push([i,i+1]);
+        const nextIdx=b+1;
+        if(nextIdx<d.exercises.length) gymMode.exerciseIndex=nextIdx;
+        else gymMode.showSummary=true;
       }
       renderGymMode();
-      showToast(existing?'Superserie rimossa':'Superserie A/B impostata: recupero dopo entrambi gli esercizi');
     }
+
     function gymModeSetRpe(setIndex,value){gymMode.rpe[`${gymMode.exerciseIndex}_${setIndex}`]=value; }
     function gymModeSetNote(exIndex,value){gymMode.notes[exIndex]=value; }
     function gymModePairFor(index){return gymMode.supersets.find(pair=>pair.includes(index))||null;}
@@ -3097,6 +3155,10 @@
               <input type="text" class="ex-note-input" value="${escapeHtml(item.note || '')}" placeholder="Nota tecnica (es. TUT 3-1-1, fermo al petto)..." oninput="updateExerciseNote('${dayId}', ${idx}, this.value)" />
             </div>
           </div>
+          <div class="no-print" style="margin:8px 0 4px">
+            <button class="btn btn-sm" onclick="toggleDaySuperset('${dayId}',${idx})">${daySupersetFor(state.days.find(d=>d.id===dayId),idx)?'🔗 Rimuovi abbinamento superserie':'🔗 Abbina in superserie con esercizio successivo'}</button>
+            ${daySupersetFor(state.days.find(d=>d.id===dayId),idx)?'<span style="font-size:.78rem;color:var(--brand-secondary);font-weight:800;margin-left:7px">A1 ↔ A2</span>':''}
+          </div>
 
           <div class="sets-manager">
             <div class="sets-controls-top">
@@ -3131,6 +3193,20 @@
     // =========================================================================
     // 9. AZIONI SU GIORNI, ESERCIZI, SERIE E RIPETIZIONI
     // =========================================================================
+    function daySupersetFor(day,index){ return (day?.supersets||[]).find(pair=>pair.includes(index))||null; }
+    function toggleDaySuperset(dayId,index){
+      const day=state.days.find(d=>d.id===dayId); if(!day)return;
+      day.supersets=Array.isArray(day.supersets)?day.supersets:[];
+      const existing=daySupersetFor(day,index);
+      if(existing) day.supersets=day.supersets.filter(p=>p!==existing);
+      else {
+        if(index>=day.exercises.length-1){showToast('Aggiungi un esercizio subito dopo per creare la superserie.');return;}
+        day.supersets=day.supersets.filter(p=>!p.includes(index)&&!p.includes(index+1));
+        day.supersets.push([index,index+1]);
+      }
+      saveState(); renderDaysPanel(); showToast(existing?'Abbinamento superserie rimosso':'Superserie salvata nella scheda');
+    }
+
     function updateDayFocus(dayId, val) {
       const d = state.days.find(x => x.id === dayId);
       if (d) { d.focus = val; saveState(); }
@@ -3198,6 +3274,7 @@
       const temp = d.exercises[idx];
       d.exercises[idx] = d.exercises[target];
       d.exercises[target] = temp;
+      (d.supersets||[]).forEach(pair=>{ pair.forEach((v,k)=>{if(v===idx)pair[k]=target;else if(v===target)pair[k]=idx;}); });
       saveState();
       renderDaysPanel();
     }
@@ -3206,6 +3283,7 @@
       const d = state.days.find(x => x.id === dayId);
       if (!d) return;
       d.exercises.splice(idx, 1);
+      d.supersets=(d.supersets||[]).filter(pair=>!pair.includes(idx)).map(pair=>pair.map(v=>v>idx?v-1:v));
       saveState();
       renderDayTabs();
       renderDaysPanel();
