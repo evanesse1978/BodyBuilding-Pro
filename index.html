@@ -1375,7 +1375,21 @@
       .ex-illustration { background: #f8fafc !important; border-color: #94a3b8 !important; }
       .set-box, .sets-manager, .set-input-group { background: #f8fafc !important; border-color: #cbd5e1 !important; }
     }
-  </style>
+  
+    /* Atlante didattico esercizi: anatomia schematica e fasi */
+    .exercise-atlas{display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center;margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)}
+    .atlas-figure{width:100px;height:128px;display:block}
+    .atlas-figure .body-part{fill:#cbd5e1;stroke:#64748b;stroke-width:1.2}
+    .atlas-figure .target{fill:#fb7185;stroke:#be123c;stroke-width:1.4}
+    .atlas-figure .target-soft{fill:#fda4af;stroke:#be123c;stroke-width:1.2}
+    .atlas-legend{font-size:.72rem;font-weight:800;color:var(--text-muted);margin-bottom:5px}
+    .atlas-muscles{font-weight:850;font-size:.84rem;line-height:1.3;margin-bottom:7px}
+    .atlas-steps{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .atlas-step{padding:6px;border-radius:8px;background:var(--surface);font-size:.72rem;line-height:1.3}
+    .atlas-step b{display:block;margin-bottom:2px;color:var(--brand-secondary)}
+    @media(max-width:520px){.exercise-atlas{grid-template-columns:82px 1fr;gap:7px;padding:8px}.atlas-figure{width:82px;height:115px}.atlas-steps{grid-template-columns:1fr}}
+
+</style>
 </head>
 <body>
 
@@ -1637,7 +1651,7 @@
             ⭐ Le Mie Schede (<span id="modalSavedCount">0</span>)
           </button>
           <button class="modal-tab-btn" id="tabDefaultPrograms" onclick="switchProgramsTab('default')">
-            📋 Schede Default (50)
+            📋 Schede Default (100)
           </button>
         </div>
         <div id="programsModalContent"></div>
@@ -1908,6 +1922,16 @@
       tricep_extension: `<svg viewBox="0 0 100 80"><rect x="24" y="56" width="52" height="6" rx="2" fill="var(--svg-stroke)"/><circle cx="32" cy="48" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M38 50 L64 50 L74 64 M44 50 L44 30 L26 34" stroke="var(--svg-stroke)" stroke-width="2.5" fill="none"/><circle cx="24" cy="34" r="5" fill="var(--svg-muscle)"/><path d="M26 26 Q36 22 44 28" stroke="var(--svg-accent)" stroke-width="1.8" fill="none"/></svg>`,
       crunch: `<svg viewBox="0 0 100 80"><line x1="12" y1="66" x2="88" y2="66" stroke="var(--svg-accent)" stroke-width="2.5"/><circle cx="34" cy="36" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M38 40 Q48 58 60 58 L72 42 L82 64" stroke="var(--svg-stroke)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M38 30 Q48 26 54 34" stroke="var(--svg-muscle)" stroke-width="2" fill="none"/></svg>`,
       leg_raise_plank: `<svg viewBox="0 0 100 80"><line x1="18" y1="10" x2="82" y2="10" stroke="var(--svg-accent)" stroke-width="3"/><circle cx="48" cy="22" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M48 28 L48 48 L74 46 M48 30 L34 10 M48 30 L62 10" stroke="var(--svg-stroke)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M62 62 A18 18 0 0 0 74 48" stroke="var(--svg-muscle)" stroke-width="2" fill="none"/></svg>`,
+      // Illustrazioni macchina più leggibili: telaio, seduta, cavi e direzione del movimento
+      machine_stack: `<svg viewBox="0 0 100 80"><rect x="12" y="8" width="10" height="62" rx="2" fill="var(--svg-stroke)" opacity=".18"/><path d="M18 8V70M18 8H74V70M74 8V70" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><rect x="25" y="18" width="18" height="6" rx="2" fill="var(--svg-muscle)"/><rect x="25" y="27" width="18" height="6" rx="2" fill="var(--svg-muscle)"/><rect x="25" y="36" width="18" height="6" rx="2" fill="var(--svg-muscle)"/><path d="M48 18L65 36L65 48" stroke="var(--svg-accent)" stroke-width="2.5" fill="none"/><circle cx="65" cy="49" r="4" fill="var(--svg-accent)"/><path d="M45 57H80M52 57V70M75 57V70" stroke="var(--svg-stroke)" stroke-width="3"/><path d="M55 44V58" stroke="var(--svg-muscle)" stroke-width="3"/></svg>`,
+      hack_squat: `<svg viewBox="0 0 100 80"><path d="M22 8L22 72M22 8L76 8M76 8L76 72" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><path d="M28 22L58 44L72 64" stroke="var(--svg-accent)" stroke-width="4" fill="none"/><rect x="34" y="18" width="26" height="8" rx="3" fill="var(--svg-muscle)"/><circle cx="35" cy="38" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M38 43L54 53L48 70M54 53L66 70" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M35 42L30 56" stroke="var(--svg-accent)" stroke-width="2.5"/></svg>`,
+      leg_press_machine: `<svg viewBox="0 0 100 80"><path d="M12 68H88M22 68V18H34V68M78 68V12" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><path d="M30 24L68 50L78 50" stroke="var(--svg-accent)" stroke-width="4" fill="none"/><rect x="57" y="18" width="24" height="8" rx="2" fill="var(--svg-muscle)"/><circle cx="40" cy="34" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M40 40L48 54L40 66M48 54L62 66M40 42L58 48" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><path d="M56 46L68 40" stroke="var(--svg-muscle)" stroke-width="3"/></svg>`,
+      hip_thrust_machine: `<svg viewBox="0 0 100 80"><path d="M18 62H82M28 62V40H62V62" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><rect x="42" y="34" width="24" height="8" rx="3" fill="var(--svg-muscle)"/><circle cx="26" cy="34" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M31 36L45 48L66 46L76 62M45 48L40 62" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M52 45V30" stroke="var(--svg-accent)" stroke-width="2.5"/></svg>`,
+      cable_station: `<svg viewBox="0 0 100 80"><path d="M12 8V72M88 8V72M12 8H88" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><rect x="18" y="18" width="9" height="24" rx="2" fill="var(--svg-muscle)"/><rect x="73" y="18" width="9" height="24" rx="2" fill="var(--svg-muscle)"/><circle cx="50" cy="25" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M50 30L50 52L42 70M50 52L58 70M50 34L32 42M50 34L68 42" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M27 42L32 42M68 42L73 42" stroke="var(--svg-accent)" stroke-width="3"/></svg>`,
+      chest_supported: `<svg viewBox="0 0 100 80"><path d="M18 68H82M28 68V18M28 18H70" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><path d="M30 26L64 52" stroke="var(--svg-accent)" stroke-width="4"/><rect x="42" y="34" width="24" height="8" rx="3" fill="var(--svg-muscle)"/><circle cx="34" cy="26" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M38 30L50 48L46 68M50 48L62 68M40 35L66 44" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M65 44L77 44" stroke="var(--svg-accent)" stroke-width="2.5"/></svg>`,
+      glute_kick: `<svg viewBox="0 0 100 80"><path d="M20 8V72M20 8H78M78 8V72" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><rect x="26" y="22" width="12" height="30" rx="3" fill="var(--svg-muscle)"/><circle cx="46" cy="25" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M46 30L46 48L40 70M46 48L58 70M46 34L35 44M46 42L62 54L76 50" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M60 54L76 50" stroke="var(--svg-accent)" stroke-width="3"/></svg>`,
+      ab_machine: `<svg viewBox="0 0 100 80"><path d="M20 8V72M20 8H78M78 8V72M18 68H82" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><rect x="28" y="34" width="16" height="22" rx="3" fill="var(--svg-muscle)"/><circle cx="50" cy="22" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M50 28L52 46L42 68M52 46L64 68M50 32L34 42M50 32L66 42" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M54 36Q64 42 58 52" stroke="var(--svg-accent)" stroke-width="2.5" fill="none"/></svg>`,
+      smith_machine: `<svg viewBox="0 0 100 80"><path d="M18 8V72M82 8V72M18 8H82" stroke="var(--svg-stroke)" stroke-width="3" fill="none"/><line x1="24" y1="28" x2="76" y2="28" stroke="var(--svg-accent)" stroke-width="4"/><rect x="20" y="20" width="8" height="16" rx="2" fill="var(--svg-muscle)"/><rect x="72" y="20" width="8" height="16" rx="2" fill="var(--svg-muscle)"/><circle cx="50" cy="20" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M50 26L50 50L42 70M50 50L58 70M50 32L36 28M50 32L64 28" stroke="var(--svg-stroke)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
       stretch: `<svg viewBox="0 0 100 80"><line x1="12" y1="66" x2="88" y2="66" stroke="var(--svg-accent)" stroke-width="2.5"/><circle cx="52" cy="36" r="5" fill="none" stroke="var(--svg-stroke)" stroke-width="2.5"/><path d="M32 64 L48 64 L48 42 L72 56" stroke="var(--svg-stroke)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M58 28 Q68 30 72 40" stroke="var(--svg-muscle)" stroke-width="2" stroke-dasharray="3 2" fill="none"/></svg>`
     };
 
@@ -2036,6 +2060,75 @@
       { id: 'st5', name: 'Pigeon Pose (Stretching Glutei & Piriforme)', category: 'stretching', diff: 2, muscle: 'Glutei & Rotatori Esterni Anca', svg: 'stretch', defaultSets: 2, defaultReps: '35 sec/lato' },
       { id: 'st6', name: 'Cobra Stretch (Estensione Addome)', category: 'stretching', diff: 1, muscle: 'Retto Addominale & Colonna', svg: 'stretch', defaultSets: 2, defaultReps: '30 sec' },
       { id: 'st7', name: 'Stretching Tricipiti & Deltoide Posteriore', category: 'stretching', diff: 1, muscle: 'Tricipiti & Spalle', svg: 'stretch', defaultSets: 2, defaultReps: '30 sec/lato' },
+
+      // NUOVI MACCHINARI E VARIANTI (catalogo ampliato)
+      { id: 'px1', name: 'Chest Press Iso-Laterale (Hammer Strength)', category: 'petto', diff: 1, muscle: 'Pettorale medio, spinta indipendente', svg: 'chest_machine', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'px2', name: 'Chest Press Orizzontale a Leva', category: 'petto', diff: 1, muscle: 'Pettorale medio', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'px3', name: 'Chest Press Decline Guidata', category: 'petto', diff: 1, muscle: 'Pettorale basso', svg: 'chest_machine', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'px4', name: 'Chest Press Unilaterale al Cavo', category: 'petto', diff: 2, muscle: 'Pettorale e stabilizzatori', svg: 'cable_station', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'px5', name: 'Panca Smith Machine', category: 'petto', diff: 2, muscle: 'Pettorale e tricipiti', svg: 'smith_machine', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'px6', name: 'Press ai Cavi in Piedi', category: 'petto', diff: 2, muscle: 'Pettorale e core', svg: 'cable_station', defaultSets: 3, defaultReps: '12' },
+      { id: 'px7', name: 'Pullover Machine', category: 'petto', diff: 1, muscle: 'Pettorale e gran dorsale', svg: 'machine_stack', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'px8', name: 'Pec Deck con Braccia Flesse', category: 'petto', diff: 1, muscle: 'Pettorale', svg: 'chest_machine', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'dx1', name: 'Lat Machine Iso-Laterale', category: 'dorso', diff: 1, muscle: 'Gran dorsale, lavoro indipendente', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'dx2', name: 'Lat Machine Presa Neutra', category: 'dorso', diff: 1, muscle: 'Gran dorsale e bicipiti', svg: 'lat_pulldown', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'dx3', name: 'Lat Machine Supina', category: 'dorso', diff: 1, muscle: 'Gran dorsale e bicipiti', svg: 'lat_pulldown', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'dx4', name: 'High Row convergente', category: 'dorso', diff: 1, muscle: 'Dorsali e parte alta schiena', svg: 'chest_supported', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'dx5', name: 'Low Row Iso-Laterale', category: 'dorso', diff: 1, muscle: 'Dorsali, romboidi', svg: 'chest_supported', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'dx6', name: 'Rematore Chest Supported Machine', category: 'dorso', diff: 1, muscle: 'Romboidi e dorsali', svg: 'chest_supported', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'dx7', name: 'T-Bar Row con supporto toracico', category: 'dorso', diff: 1, muscle: 'Spessore dorso', svg: 'chest_supported', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'dx8', name: 'Pulley con presa larga', category: 'dorso', diff: 1, muscle: 'Romboidi e deltoidi posteriori', svg: 'seated_row', defaultSets: 3, defaultReps: '12' },
+      { id: 'dx9', name: 'Pulley unilaterale al cavo', category: 'dorso', diff: 2, muscle: 'Dorsale unilaterale', svg: 'cable_station', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'dx10', name: 'Straight Arm Pulldown con corda', category: 'dorso', diff: 2, muscle: 'Gran dorsale', svg: 'cable_station', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'dx11', name: 'Assisted Pull-Up Machine', category: 'dorso', diff: 1, muscle: 'Gran dorsale, assistenza trazioni', svg: 'pullup', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'dx12', name: 'Assisted Dip Machine', category: 'dorso', diff: 1, muscle: 'Tricipiti, petto, assistenza', svg: 'pushup_dip', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'sx1', name: 'Shoulder Press convergente', category: 'spalle', diff: 1, muscle: 'Deltoidi e tricipiti', svg: 'shoulder_press', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'sx2', name: 'Shoulder Press Iso-Laterale', category: 'spalle', diff: 1, muscle: 'Deltoidi, lavoro indipendente', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'sx3', name: 'Lateral Raise Machine', category: 'spalle', diff: 1, muscle: 'Deltoide laterale', svg: 'lateral_raise', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'sx4', name: 'Alzate Laterali al Cavo da Dietro', category: 'spalle', diff: 2, muscle: 'Deltoide laterale, tensione continua', svg: 'cable_station', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'sx5', name: 'Rear Delt Machine', category: 'spalle', diff: 1, muscle: 'Deltoide posteriore', svg: 'rear_delt', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'sx6', name: 'Y-Raise su panca inclinata', category: 'spalle', diff: 2, muscle: 'Deltoide posteriore e trapezio basso', svg: 'rear_delt', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'sx7', name: 'Shrug Machine', category: 'spalle', diff: 1, muscle: 'Trapezio superiore', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–15' },
+      { id: 'gx1', name: 'Leg Press Orizzontale', category: 'gambe', diff: 1, muscle: 'Quadricipiti e glutei', svg: 'leg_press_machine', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'gx2', name: 'Leg Press 45° piedi alti', category: 'gambe', diff: 1, muscle: 'Glutei e femorali', svg: 'leg_press_machine', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'gx3', name: 'Leg Press 45° unilaterale', category: 'gambe', diff: 2, muscle: 'Quadricipiti e glutei per lato', svg: 'leg_press_machine', defaultSets: 3, defaultReps: '10/lato' },
+      { id: 'gx4', name: 'Hack Squat Machine', category: 'gambe', diff: 1, muscle: 'Quadricipiti e glutei', svg: 'hack_squat', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'gx5', name: 'Pendulum Squat', category: 'gambe', diff: 2, muscle: 'Quadricipiti, glutei', svg: 'hack_squat', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'gx6', name: 'V-Squat / Squat a Leva', category: 'gambe', diff: 1, muscle: 'Quadricipiti e glutei', svg: 'hack_squat', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'gx7', name: 'Smith Squat', category: 'gambe', diff: 2, muscle: 'Quadricipiti e glutei', svg: 'smith_machine', defaultSets: 3, defaultReps: '8–12' },
+      { id: 'gx8', name: 'Belt Squat Machine', category: 'gambe', diff: 1, muscle: 'Quadricipiti e glutei senza carico diretto schiena', svg: 'hack_squat', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'gx9', name: 'Leg Extension Unilaterale', category: 'gambe', diff: 1, muscle: 'Quadricipite isolato', svg: 'machine_stack', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'gx10', name: 'Leg Curl Sdraiato', category: 'gambe', diff: 1, muscle: 'Femorali', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–15' },
+      { id: 'gx11', name: 'Leg Curl Unilaterale', category: 'gambe', diff: 1, muscle: 'Femorali per lato', svg: 'machine_stack', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'gx12', name: 'Leg Curl in Piedi', category: 'gambe', diff: 1, muscle: 'Femorali', svg: 'machine_stack', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'gx13', name: 'Glute Drive / Hip Thrust Machine', category: 'gambe', diff: 1, muscle: 'Gluteo massimo', svg: 'hip_thrust_machine', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'gx14', name: 'Hip Thrust alla Smith', category: 'gambe', diff: 2, muscle: 'Gluteo massimo', svg: 'smith_machine', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'gx15', name: 'Glute Kickback Machine', category: 'gambe', diff: 1, muscle: 'Gluteo per lato', svg: 'glute_kick', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'gx16', name: 'Glute Kickback al Cavo', category: 'gambe', diff: 2, muscle: 'Gluteo per lato', svg: 'glute_kick', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'gx17', name: 'Abductor Machine', category: 'gambe', diff: 1, muscle: 'Gluteo medio e abduttori', svg: 'machine_stack', defaultSets: 3, defaultReps: '15–20' },
+      { id: 'gx18', name: 'Adductor Machine', category: 'gambe', diff: 1, muscle: 'Adduttori', svg: 'machine_stack', defaultSets: 3, defaultReps: '15–20' },
+      { id: 'gx19', name: 'Calf Raise Seduto Machine', category: 'gambe', diff: 1, muscle: 'Soleo e polpacci', svg: 'machine_stack', defaultSets: 4, defaultReps: '12–15' },
+      { id: 'gx20', name: 'Calf Raise in piedi Machine', category: 'gambe', diff: 1, muscle: 'Gastrocnemio', svg: 'machine_stack', defaultSets: 4, defaultReps: '12–15' },
+      { id: 'gx21', name: 'Calf Press su Leg Press', category: 'gambe', diff: 1, muscle: 'Polpacci', svg: 'leg_press_machine', defaultSets: 4, defaultReps: '15–20' },
+      { id: 'gx22', name: 'Back Extension Machine', category: 'gambe', diff: 1, muscle: 'Erettori spinali e glutei', svg: 'machine_stack', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'gx23', name: 'Hip Abduction al Cavo in piedi', category: 'gambe', diff: 2, muscle: 'Gluteo medio', svg: 'cable_station', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'gx24', name: 'Hip Adduction al Cavo', category: 'gambe', diff: 2, muscle: 'Adduttori', svg: 'cable_station', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'bx1', name: 'Biceps Curl Machine', category: 'bicipiti', diff: 1, muscle: 'Bicipite brachiale', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'bx2', name: 'Preacher Curl Machine', category: 'bicipiti', diff: 1, muscle: 'Bicipite, enfasi posizione allungata', svg: 'preacher_curl', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'bx3', name: 'Curl al Cavo Basso con Barra', category: 'bicipiti', diff: 1, muscle: 'Bicipiti, tensione continua', svg: 'cable_station', defaultSets: 3, defaultReps: '12' },
+      { id: 'bx4', name: 'Curl al Cavo Alto (Double Biceps)', category: 'bicipiti', diff: 2, muscle: 'Bicipite brachiale', svg: 'cable_station', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'bx5', name: 'Curl Spider con Manubri', category: 'bicipiti', diff: 2, muscle: 'Bicipite', svg: 'preacher_curl', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'bx6', name: 'Curl Hammer al Cavo con Corda', category: 'bicipiti', diff: 1, muscle: 'Brachiale e brachioradiale', svg: 'cable_station', defaultSets: 3, defaultReps: '12' },
+      { id: 'tx1', name: 'Triceps Extension Machine', category: 'tricipiti', diff: 1, muscle: 'Tricipiti', svg: 'machine_stack', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'tx2', name: 'Dip Machine', category: 'tricipiti', diff: 1, muscle: 'Tricipiti e pettorale', svg: 'pushup_dip', defaultSets: 3, defaultReps: '10–12' },
+      { id: 'tx3', name: 'Overhead Triceps Extension al Cavo', category: 'tricipiti', diff: 2, muscle: 'Capo lungo tricipite', svg: 'cable_station', defaultSets: 3, defaultReps: '12' },
+      { id: 'tx4', name: 'Pushdown al Cavo Singolo', category: 'tricipiti', diff: 2, muscle: 'Tricipite unilaterale', svg: 'cable_station', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'tx5', name: 'Triceps Kickback al Cavo', category: 'tricipiti', diff: 2, muscle: 'Tricipite', svg: 'cable_station', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'ax1', name: 'Abdominal Crunch Machine', category: 'addome', diff: 1, muscle: 'Retto addominale', svg: 'ab_machine', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'ax2', name: 'Rotary Torso Machine', category: 'addome', diff: 1, muscle: 'Obliqui', svg: 'ab_machine', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'ax3', name: 'Cable Crunch in Ginocchio', category: 'addome', diff: 2, muscle: 'Retto addominale', svg: 'cable_station', defaultSets: 3, defaultReps: '12–15' },
+      { id: 'ax4', name: 'Pallof Press al Cavo', category: 'addome', diff: 2, muscle: 'Core anti-rotazione', svg: 'cable_station', defaultSets: 3, defaultReps: '12/lato' },
+      { id: 'ax5', name: 'Back Extension 45°', category: 'addome', diff: 1, muscle: 'Lombari, glutei e femorali', svg: 'chest_supported', defaultSets: 3, defaultReps: '12–15' },
       { id: 'st8', name: 'Decompressione Passiva alla Sbarra', category: 'stretching', diff: 1, muscle: 'Colonna Vertebrale & Avambracci', svg: 'pullup', defaultSets: 2, defaultReps: '30 sec' }
     ];
 
@@ -2362,6 +2455,78 @@
     ];
     PRESET_PROGRAMS.push(...MORE_PRESET_DEFINITIONS.map(buildExtraPreset));
 
+    // 3D. ULTERIORI 50 SCHEDE (100 TOTALI), con macchinari di nuova generazione
+    const NEW_50_PRESET_TEMPLATES = [
+      [['px1','p2','sx3','tx1'],['dx4','dx6','dx2','bx1'],['gx5','gx8','gx9','gx19']],
+      [['px2','px6','sx1','tx3'],['dx5','dx7','dx9','bx3'],['gx4','gx6','gx13','gx20']],
+      [['p1','p5','px8','tx2'],['d3','dx1','dx11','bx2'],['g1','gx3','gx10','gx17']],
+      [['px3','px4','sx5','tx4'],['dx3','dx8','dx10','bx6'],['gx7','gx12','gx15','gx21']],
+      [['p6','px7','sx2','t5'],['d5','dx6','d8','b5'],['g3','gx2','gx14','gx18']],
+      [['p2','px1','sx3','t2'],['dx4','dx5','dx2','bx4'],['g2','gx5','gx11','gx19']],
+      [['px6','p12','s9','tx5'],['d9','dx7','dx9','b8'],['g8','gx8','gx16','gx20']],
+      [['p4','px2','s4','t1'],['d4','dx1','dx8','b2'],['g4','gx1','gx9','gx17']],
+      [['p5','px8','sx6','tx3'],['dx3','dx6','dx10','bx5'],['g7','gx6','gx13','gx22']],
+      [['px3','p10','sx5','tx1'],['d3','dx4','dx11','bx1'],['g5','gx4','gx12','gx18']],
+      [['p1','p6','s2','t4'],['d5','dx5','d8','b3'],['g1','g7','g6','gx20']],
+      [['px1','px7','sx7','tx2'],['dx2','dx7','dx9','bx6'],['gx5','gx8','gx15','gx19']],
+      [['p2','p12','sx3','tx5'],['dx4','dx6','dx10','bx2'],['gx3','gx10','gx13','gx21']],
+      [['p3','px3','s4','t3'],['d4','dx1','dx8','b6'],['g2','gx6','gx12','gx17']],
+      [['px2','p5','sx1','tx4'],['d3','dx5','dx11','bx3'],['gx1','gx7','gx14','gx20']],
+      [['p4','px4','sx4','t5'],['d9','dx4','dx9','b9'],['g8','gx2','gx11','gx18']],
+      [['p6','p11','sx5','tx1'],['dx2','dx6','dx10','bx4'],['g3','gx5','gx15','gx19']],
+      [['px1','p8','s8','tx3'],['d5','dx7','dx8','bx5'],['g7','gx8','gx16','gx22']],
+      [['p1','px5','sx2','t2'],['d3','dx1','dx11','b1'],['g1','gx4','gx9','gx20']],
+      [['p2','px7','sx3','tx2'],['dx4','dx5','dx9','bx1'],['g4','gx6','gx13','gx17']],
+      [['px3','p6','s9','t4'],['d4','dx2','dx10','bx6'],['g2','gx3','gx12','gx21']],
+      [['p5','px8','sx6','tx5'],['d8','dx6','dx7','b4'],['g8','gx7','gx14','gx18']],
+      [['p4','px2','s4','tx1'],['d5','dx4','dx8','bx2'],['g3','gx5','gx10','gx19']],
+      [['px1','p10','sx5','tx4'],['dx1','dx3','dx11','bx3'],['g1','gx8','gx15','gx20']],
+      [['p2','px6','sx1','t3'],['d3','dx5','dx9','b7'],['g7','gx2','gx13','gx17']],
+      [['p1','p12','sx3','tx3'],['d4','dx6','dx10','bx4'],['g4','gx6','gx11','gx21']],
+      [['px4','p5','s8','tx2'],['d9','dx7','dx2','bx6'],['g8','gx4','gx16','gx19']],
+      [['px2','px8','sx2','t1'],['dx4','dx8','dx11','bx1'],['g2','gx5','gx9','gx18']],
+      [['p3','px3','sx5','tx5'],['d5','dx1','dx6','b8'],['g3','gx7','gx14','gx20']],
+      [['p6','p11','sx4','tx4'],['dx2','dx5','dx9','bx5'],['g1','gx3','gx12','gx17']],
+      [['px1','p4','sx6','t5'],['d3','dx4','dx10','bx3'],['g7','gx8','gx13','gx21']],
+      [['p2','px7','sx7','tx1'],['d8','dx6','dx7','bx2'],['g4','gx2','gx15','gx19']],
+      [['px3','p8','s9','tx3'],['d4','dx3','dx11','b6'],['g2','gx6','gx10','gx20']],
+      [['p1','px6','sx1','t2'],['d5','dx5','dx8','bx4'],['g8','gx5','gx14','gx18']],
+      [['p5','p12','sx3','tx5'],['dx1','dx4','dx9','bx6'],['g3','gx1','gx16','gx21']],
+      [['px2','p10','s4','tx2'],['d3','dx2','dx6','b9'],['g1','gx4','gx11','gx17']],
+      [['p3','px1','sx5','t4'],['d9','dx7','dx10','bx1'],['g7','gx7','gx13','gx19']],
+      [['p4','px8','sx2','tx4'],['d4','dx5','dx11','bx3'],['g2','gx8','gx15','gx20']],
+      [['px4','p6','sx6','tx1'],['d5','dx4','dx9','b2'],['g4','gx3','gx12','gx18']],
+      [['p2','px5','sx1','t3'],['dx2','dx6','dx8','bx5'],['g8','gx6','gx14','gx21']],
+      [['px3','p11','s9','tx3'],['d3','dx1','dx7','bx2'],['g3','gx5','gx10','gx17']],
+      [['p1','px7','sx4','tx5'],['d8','dx5','dx10','b4'],['g1','gx2','gx16','gx19']],
+      [['p5','px2','sx3','t2'],['d4','dx4','dx11','bx6'],['g7','gx7','gx9','gx20']],
+      [['px1','p12','s8','tx4'],['d5','dx6','dx9','bx1'],['g2','gx4','gx13','gx18']],
+      [['p3','px6','sx2','tx1'],['dx3','dx7','dx8','b5'],['g4','gx8','gx15','gx21']],
+      [['p4','px3','sx5','t5'],['d3','dx2','dx5','bx4'],['g8','gx1','gx11','gx17']],
+      [['px2','p8','sx7','tx2'],['d9','dx4','dx10','bx3'],['g3','gx6','gx14','gx19']],
+      [['p2','p6','s4','tx3'],['d4','dx1','dx11','b3'],['g1','gx5','gx12','gx20']],
+      [['px4','px8','sx6','t1'],['d5','dx6','dx9','bx5'],['g7','gx3','gx16','gx18']],
+      [['p1','px5','sx1','tx5'],['d8','dx5','dx7','bx2'],['g2','gx7','gx10','gx21']]
+    ];
+    const NEW_50_PRESET_NAMES = [
+      'Macchine Convergenti Full Body','Ipertrofia Machine-First 4 Giorni','Push Pull Legs Moderno','Upper Lower con Iso-Laterali','Specializzazione Quadricipiti Machine','Specializzazione Glutei e Femorali','Dorso Spessore e Ampiezza','Petto Macchine e Cavi','Spalle 3D con Macchine','Braccia Machine & Cable',
+      'Full Body 3 Giorni — Tecnica','Ipertrofia 5 Giorni — Volume','PPL 6 Giorni — Macchine','Upper Lower 4 Giorni — Avanzato','Leg Day — Nuove Macchine','Glute Focus 3 Giorni','Back Focus — Row Machines','Chest Focus — Leve e Cavi','Deltoidi — Machine & Cable','Arms Focus — 4 Giorni',
+      'Forza e Ipertrofia Bilanciata','Ipertrofia 4 Giorni — Convergenti','Push Pull Legs — Intermedio','Upper Lower — Principiante','Quad Dominant — 4 Giorni','Posterior Chain — Machine','Schiena — Iso-Laterale','Pettorali — Press e Pec Deck','Spalle — Lateral Raise Machine','Braccia — Cavi e Macchine',
+      'Full Body Moderno — 2 Giorni','Massa Muscolare — 3 Giorni','Massa Muscolare — 4 Giorni','Massa Muscolare — 5 Giorni','PPL — Focus Macchine','Upper Lower — Focus Leve','Legs & Glutes — 4 Giorni','Back & Biceps — Specializzazione','Chest & Triceps — Specializzazione','Shoulders & Arms — Specializzazione','Fitness Metabolico — Macchine',
+      'Ipertrofia Iso-Laterale','Convergenti — Split 4 Giorni','PPL — Volume Moderato','Upper Lower — Progressione','Quadricipiti — Leve e Smith','Glutei — Drive e Kickback','Dorso — High Row e Low Row','Petto — Hammer e Leve','Spalle — Rear Delt e Shrug','Scheda Equilibrata — Catalogo Plus'
+    ];
+    const NEW_50_PRESET_GOALS = ['Ipertrofia','Massa Muscolare','Forza e Ipertrofia','Fitness Generale','Specializzazione Muscolare'];
+    const NEW_50_PRESET_LEVELS = ['Intermedio','Avanzato','Intermedio','Principiante','Avanzato'];
+    const NEW_50_PRESET_FREQ = ['3 Giorni','4 Giorni','5 Giorni','6 Giorni'];
+    const NEW_50_PRESET_DUR = ['3 giorni • macchine e pesi liberi','4 giorni • split bilanciato','5 giorni • volume progressivo','6 giorni • specializzazione'];
+    const NEW_50_PRESET_DEFINITIONS = NEW_50_PRESET_NAMES.slice(0,50).map((title,i)=>{
+      const t=NEW_50_PRESET_TEMPLATES[i];
+      const freq=NEW_50_PRESET_FREQ[i%4];
+      const days = i%4===0 ? t : (i%4===1 ? [t[0],t[1],t[2],t[0]] : (i%4===2 ? [t[0],t[1],t[2],t[0],t[1]] : [t[0],t[1],t[2],t[0],t[1],t[2]]));
+      return [`modern_100_${i+1}`,title,NEW_50_PRESET_LEVELS[i%5],NEW_50_PRESET_GOALS[i%5],freq,NEW_50_PRESET_DUR[i%4],days];
+    });
+    PRESET_PROGRAMS.push(...NEW_50_PRESET_DEFINITIONS.map(buildExtraPreset));
+
 
     // =========================================================================
     // 4. STATO APPLICAZIONE, LIBRERIA SCHEDE PERSONALI & LOCALSTORAGE
@@ -2661,7 +2826,7 @@
     }
 
     // MODALITA' PALESTRA: schermata concentrata, adatta al telefono
-    let gymMode = { dayId:null, exerciseIndex:0, completedSets:{}, rpe:{}, notes:{}, supersets:[], wakeLock:null, keepScreen:true, startedAt:0, substituteOpen:false, substituteQuery:'', showSummary:false };
+    let gymMode = { dayId:null, exerciseIndex:0, completedSets:{}, skippedExercises:{}, substitutions:{}, rpe:{}, notes:{}, supersets:[], wakeLock:null, keepScreen:true, startedAt:0, substituteOpen:false, substituteQuery:'', showSummary:false };
     async function gymModeRequestWakeLock() {
       if (!gymMode.keepScreen || !document.getElementById('gymModeOverlay')?.classList.contains('open')) return;
       try { if ('wakeLock' in navigator && !gymMode.wakeLock) { const lock=await navigator.wakeLock.request('screen'); gymMode.wakeLock=lock; lock.addEventListener('release',()=>{if(gymMode.wakeLock===lock)gymMode.wakeLock=null;}); } } catch(e) { /* browser/device may not support wake lock */ }
@@ -2675,7 +2840,7 @@
     function startGymMode(dayId) {
       const day = state.days.find(d => d.id === dayId);
       if (!day || !day.exercises.length) { showToast('Inserisci prima gli esercizi nella scheda.'); return; }
-      gymMode = { dayId, exerciseIndex:0, completedSets:{}, rpe:{}, notes:{}, supersets:Array.isArray(day.supersets)?day.supersets.map(p=>p.slice()):[], wakeLock:null, keepScreen:true, startedAt:Date.now(), substituteOpen:false, substituteQuery:'', showSummary:false };
+      gymMode = { dayId, exerciseIndex:0, completedSets:{}, skippedExercises:{}, substitutions:{}, rpe:{}, notes:{}, supersets:Array.isArray(day.supersets)?day.supersets.map(p=>p.slice()):[], wakeLock:null, keepScreen:true, startedAt:Date.now(), substituteOpen:false, substituteQuery:'', showSummary:false };
       document.getElementById('gymModeOverlay').classList.add('open');
       document.body.style.overflow='hidden';
       const wakeToggle=document.getElementById('gymWakeToggle'); if(wakeToggle) wakeToggle.checked=true;
@@ -2687,16 +2852,19 @@
       document.body.style.overflow='';
       if (gymMode.wakeLock) { try { gymMode.wakeLock.release(); } catch(e){} gymMode.wakeLock=null; }
     }
+    function gymModeCurrentExerciseId(index){const day=state.days.find(d=>d.id===gymMode.dayId);return gymMode.substitutions[index]||(day?.exercises[index]?.exId);}
+    function gymModeCurrentExercise(index){return getExerciseById(gymModeCurrentExerciseId(index));}
+    function gymModeSkipExercise(index){const day=state.days.find(d=>d.id===gymMode.dayId);if(!day||!day.exercises[index])return;gymMode.skippedExercises[index]=true;day.exercises[index].sets.forEach((_,si)=>delete gymMode.completedSets[`${index}_${si}`]);const pair=gymModePairFor(index);gymMode.substituteOpen=false;gymMode.substituteQuery='';stopRestTimer();if(pair){const other=pair.find(x=>x!==index);if(other!==undefined&&!gymMode.skippedExercises[other])gymMode.exerciseIndex=other;else gymMode.exerciseIndex=Math.max(index,other)+1;}else gymMode.exerciseIndex=index+1;if(gymMode.exerciseIndex>=day.exercises.length)gymMode.showSummary=true;renderGymMode();}
     function renderGymMode() {
       const day=state.days.find(d=>d.id===gymMode.dayId); if(!day) return exitGymMode();
       if(gymMode.showSummary) return renderGymModeSummary(day);
       const idx=gymMode.exerciseIndex, item=day.exercises[idx]; if(!item) return;
       const pair=gymModePairFor(idx);
       if(pair) return renderGymModeSuperset(day,pair);
-      const ex=getExerciseById(item.exId), svg=SVG_ICONS[ex.svg]||SVG_ICONS.bench_press;
+      const ex=gymModeCurrentExercise(idx), svg=SVG_ICONS[ex.svg]||SVG_ICONS.bench_press;
       document.getElementById('gymModeDayLabel').textContent=`${day.name} • ${idx+1}/${day.exercises.length}`;
       document.getElementById('gymModeProgressBar').style.width=((idx+1)/day.exercises.length*100)+'%';
-      const prevLog=getPreviousExerciseLog(item.exId);
+      const prevLog=getPreviousExerciseLog(gymModeCurrentExerciseId(idx));
       const sets=item.sets.map((set,si)=>{
         const done=!!gymMode.completedSets[`${idx}_${si}`];
         const prevSet=prevLog&&prevLog.sets?prevLog.sets[si]:null;
@@ -2714,8 +2882,9 @@
       document.getElementById('gymModeContent').innerHTML=`<div class="gym-mode-card">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="cat-badge cat-${ex.category}">${getCategoryLabel(ex.category)}</span><span class="diff-badge diff-${ex.diff||2}">${getDiffLabel(ex.diff||2)}</span></div>
         <h2 class="gym-mode-ex-title">${escapeHtml(ex.name)}</h2><div class="gym-mode-muscle">${escapeHtml(ex.muscle)}</div>
-        <div class="gym-mode-illustration">${svg}</div>
-        <button class="btn" style="width:100%;min-height:44px;margin:0 0 10px" onclick="gymModeOpenSubstitute()">⇄ Sostituisci esercizio</button>
+        <div class="gym-mode-illustration">${svg}</div>${exerciseAtlasMarkup(ex)}
+        <button class="btn" style="width:100%;min-height:44px;margin:0 0 10px" onclick="gymModeOpenSubstitute()">⇄ Sostituisci esercizio (solo oggi)</button>
+        <button class="btn btn-danger-ghost" style="width:100%;min-height:44px;margin:0 0 10px" onclick="gymModeSkipExercise(${idx})">⏭ Salta esercizio</button>
         ${gymMode.substituteOpen?gymModeRenderSubstitutes(ex):''}
         ${item.note?`<div style="padding:9px;background:var(--surface-2);border-radius:10px;margin-bottom:10px">📝 ${escapeHtml(item.note)}</div>`:''}
         <button class="btn" style="width:100%;min-height:44px;margin:0 0 8px" onclick="gymModeToggleSuperset()">🔗 ${gymModeIsSuperset(idx)?'Rimuovi superserie':'Superserie con esercizio successivo'}</button>
@@ -2736,8 +2905,8 @@
       renderGymMode();
     }
     function gymModeRenderPairColumn(day,exIdx,letter){
-      const item=day.exercises[exIdx], ex=getExerciseById(item.exId), svg=SVG_ICONS[ex.svg]||SVG_ICONS.bench_press;
-      const prev=getPreviousExerciseLog(item.exId);
+      const item=day.exercises[exIdx], ex=gymModeCurrentExercise(exIdx), svg=SVG_ICONS[ex.svg]||SVG_ICONS.bench_press;
+      const prev=getPreviousExerciseLog(gymModeCurrentExerciseId(exIdx));
       const sets=item.sets.map((set,si)=>{
         const done=!!gymMode.completedSets[`${exIdx}_${si}`], prevSet=prev?.sets?.[si];
         const prevLine=prevSet?`Prec: ${escapeHtml(prevSet.kg||'—')} kg × ${escapeHtml(prevSet.reps||'—')}`:'—';
@@ -2748,7 +2917,7 @@
           <button class="btn ${done?'btn-success':'btn-primary'}" ${done?'':' ' } onclick="gymModeTogglePairSet(${exIdx},${si})">${done?'✓ Registrata':`Completa ${letter} · serie ${si+1}`}</button></div>`;
       }).join('');
       const completed=item.sets.filter((_,si)=>gymMode.completedSets[`${exIdx}_${si}`]).length;
-      return `<section class="gym-pair-column ${gymMode.exerciseIndex===exIdx?'active':''}"><div class="gym-pair-heading"><span class="badge">${letter}</span> ${letter==='A'?'Primo esercizio':'Secondo esercizio'}</div><h3 class="gym-mode-ex-title">${escapeHtml(ex.name)}</h3><div class="gym-mode-muscle">${escapeHtml(ex.muscle)}</div><div class="gym-mode-illustration">${svg}</div><div style="font-size:.75rem;font-weight:850;margin:6px 0">${completed}/${item.sets.length} serie</div><div class="gym-mode-set-grid">${sets}</div><label style="display:block;font-size:.75rem;font-weight:800">Note</label><textarea class="input-ctrl" rows="2" style="width:100%;box-sizing:border-box" oninput="gymModeSetNote(${exIdx},this.value)">${escapeHtml(gymMode.notes[exIdx]||item.note||'')}</textarea></section>`;
+      return `<section class="gym-pair-column ${gymMode.exerciseIndex===exIdx?'active':''}"><div class="gym-pair-heading"><span class="badge">${letter}</span> ${letter==='A'?'Primo esercizio':'Secondo esercizio'}</div><h3 class="gym-mode-ex-title">${escapeHtml(ex.name)}</h3><div class="gym-mode-muscle">${escapeHtml(ex.muscle)}</div><div class="gym-mode-illustration">${svg}</div>${exerciseAtlasMarkup(ex)}<div style="font-size:.75rem;font-weight:850;margin:6px 0">${completed}/${item.sets.length} serie</div><div class="gym-mode-set-grid">${sets}</div><button class="btn" style="width:100%;margin:7px 0" onclick="gymModeOpenSubstituteFor(${exIdx})">⇄ Sostituisci ${letter} (solo oggi)</button><button class="btn btn-danger-ghost" style="width:100%;margin:0 0 7px" onclick="gymModeSkipExercise(${exIdx})">⏭ Salta ${letter}</button>${gymMode.substituteOpen&&gymMode.substituteIndex===exIdx?gymModeRenderSubstitutes(ex):''}<label style="display:block;font-size:.75rem;font-weight:800">Note</label><textarea class="input-ctrl" rows="2" style="width:100%;box-sizing:border-box" oninput="gymModeSetNote(${exIdx},this.value)">${escapeHtml(gymMode.notes[exIdx]||item.note||'')}</textarea></section>`;
     }
     function renderGymModeSuperset(day,pair){
       const [a,b]=pair, count=Math.max(day.exercises[a].sets.length,day.exercises[b].sets.length);
@@ -2768,13 +2937,13 @@
       const d=state.days.find(x=>x.id===gymMode.dayId),pair=gymModePairFor(exIdx);if(!d||!pair)return;
       const [a,b]=pair,key=`${exIdx}_${setIndex}`,other=exIdx===a?b:a;
       if(gymMode.completedSets[key]){delete gymMode.completedSets[key];stopRestTimer();gymMode.exerciseIndex=exIdx;renderGymMode();return;}
-      if(exIdx===b&&!gymMode.completedSets[`${a}_${setIndex}`]){showToast('Completa prima la serie A1 corrispondente.');return;}
+      if(exIdx===b&&!gymMode.skippedExercises[a]&&!gymMode.completedSets[`${a}_${setIndex}`]){showToast('Completa prima la serie A1 corrispondente.');return;}
       gymMode.completedSets[key]=true;
-      if(exIdx===a&&d.exercises[b].sets[setIndex]){gymMode.exerciseIndex=b;renderGymMode();return;}
+      if(exIdx===a&&d.exercises[b].sets[setIndex]&&!gymMode.skippedExercises[b]){gymMode.exerciseIndex=b;renderGymMode();return;}
       startRestTimer(d.exercises[b].rest||d.exercises[a].rest||'90s');
       const next=setIndex+1;
-      if(d.exercises[a].sets[next]) gymMode.exerciseIndex=a;
-      else if(d.exercises[b].sets[next]) gymMode.exerciseIndex=b;
+      if(d.exercises[a].sets[next]&&!gymMode.skippedExercises[a]) gymMode.exerciseIndex=a;
+      else if(d.exercises[b].sets[next]&&!gymMode.skippedExercises[b]) gymMode.exerciseIndex=b;
       else {
         const nextIdx=b+1;
         if(nextIdx<d.exercises.length) gymMode.exerciseIndex=nextIdx;
@@ -2786,7 +2955,8 @@
     function gymModeSetRpe(setIndex,value){gymMode.rpe[`${gymMode.exerciseIndex}_${setIndex}`]=value; }
     function gymModeSetNote(exIndex,value){gymMode.notes[exIndex]=value; }
     function gymModePairFor(index){return gymMode.supersets.find(pair=>pair.includes(index))||null;}
-    function gymModeOpenSubstitute(){ gymMode.substituteOpen=!gymMode.substituteOpen; gymMode.substituteQuery=''; renderGymMode(); if(gymMode.substituteOpen){const input=document.getElementById('gymSubstituteSearch');if(input)input.focus();} }
+    function gymModeOpenSubstitute(){ gymMode.substituteIndex=gymMode.exerciseIndex; gymMode.substituteOpen=!gymMode.substituteOpen; gymMode.substituteQuery=''; renderGymMode(); if(gymMode.substituteOpen){const input=document.getElementById('gymSubstituteSearch');if(input)input.focus();} }
+    function gymModeOpenSubstituteFor(index){gymMode.substituteIndex=index;gymMode.substituteOpen=true;gymMode.substituteQuery='';renderGymMode();const input=document.getElementById('gymSubstituteSearch');if(input)input.focus();}
     function gymModeRenderSubstitutes(currentEx){
       const q=(gymMode.substituteQuery||'').toLowerCase().trim();
       const options=getAllExercises().filter(ex=>ex.id!==currentEx.id && ex.category===currentEx.category).sort((a,b)=> (a.muscle===currentEx.muscle?-1:0)-(b.muscle===currentEx.muscle?-1:0));
@@ -2796,24 +2966,24 @@
     function gymModeSubstituteSearch(value){gymMode.substituteQuery=value;renderGymMode();const input=document.getElementById('gymSubstituteSearch');if(input){input.focus();input.setSelectionRange(input.value.length,input.value.length);}}
     function gymModeReplaceExercise(newExId){
       const d=state.days.find(x=>x.id===gymMode.dayId);if(!d)return;
-      const item=d.exercises[gymMode.exerciseIndex],replacement=getExerciseById(newExId);if(!item||!replacement)return;
-      item.exId=replacement.id;gymMode.substituteOpen=false;gymMode.substituteQuery='';
-      saveState();renderGymMode();showToast(`Esercizio sostituito: ${replacement.name}. Serie, recupero e note mantenuti.`);
+      const replaceIndex=Number.isInteger(gymMode.substituteIndex)?gymMode.substituteIndex:gymMode.exerciseIndex;const item=d.exercises[replaceIndex],replacement=getExerciseById(newExId);if(!item||!replacement)return;
+      gymMode.substitutions[replaceIndex]=replacement.id;gymMode.substituteOpen=false;gymMode.substituteQuery='';
+      renderGymMode();showToast(`Sostituzione temporanea: ${replacement.name}. La scheda originale non viene modificata.`);
     }
     function renderGymModeSummary(day){
       const durationSec=Math.max(0,Math.floor((Date.now()-(gymMode.startedAt||Date.now()))/1000));
       const duration=`${Math.floor(durationSec/60)} min ${durationSec%60} sec`;
       let setCount=0,volume=0,exerciseDone=0,progressWins=0;
-      day.exercises.forEach((item,ei)=>{let any=false;item.sets.forEach((set,si)=>{if(gymMode.completedSets[`${ei}_${si}`]){setCount++;any=true;const kg=parseFloat(String(set.kg||'').replace(',','.'))||0;const reps=parseInt(String(set.reps||'').replace(/\D/g,''),10)||0;volume+=kg*reps;const prev=getPreviousExerciseLog(item.exId)?.sets?.[si];if(prev){const oldkg=parseFloat(String(prev.kg||'').replace(',','.'))||0,oldrep=parseInt(String(prev.reps||'').replace(/\D/g,''),10)||0;if(kg>oldkg||reps>oldrep)progressWins++;}}});if(any)exerciseDone++;});
+      day.exercises.forEach((item,ei)=>{let any=false;if(gymMode.skippedExercises[ei])return;item.sets.forEach((set,si)=>{if(gymMode.completedSets[`${ei}_${si}`]){setCount++;any=true;const kg=parseFloat(String(set.kg||'').replace(',','.'))||0;const reps=parseInt(String(set.reps||'').replace(/\D/g,''),10)||0;volume+=kg*reps;const prev=getPreviousExerciseLog(gymModeCurrentExerciseId(ei))?.sets?.[si];if(prev){const oldkg=parseFloat(String(prev.kg||'').replace(',','.'))||0,oldrep=parseInt(String(prev.reps||'').replace(/\D/g,''),10)||0;if(kg>oldkg||reps>oldrep)progressWins++;}}});if(any)exerciseDone++;});
       const allSets=day.exercises.reduce((sum,e)=>sum+e.sets.length,0);
       const rpeValues=Object.values(gymMode.rpe).map(Number).filter(n=>n>0);
       const avgRpe=rpeValues.length?(rpeValues.reduce((a,b)=>a+b,0)/rpeValues.length).toFixed(1):'—';
       document.getElementById('gymModeDayLabel').textContent=`${day.name} • Riepilogo`;
       document.getElementById('gymModeProgressBar').style.width='100%';
-      document.getElementById('gymModeContent').innerHTML=`<div class="gym-mode-card"><h2 style="text-align:center;margin-top:4px">🏁 Allenamento completato!</h2><p style="text-align:center;color:var(--text-muted)">Ottimo lavoro. Ecco il riepilogo della sessione.</p><div class="gym-summary-grid"><div class="gym-summary-kpi"><strong>${duration}</strong><small>Durata</small></div><div class="gym-summary-kpi"><strong>${exerciseDone}/${day.exercises.length}</strong><small>Esercizi svolti</small></div><div class="gym-summary-kpi"><strong>${setCount}/${allSets}</strong><small>Serie completate</small></div><div class="gym-summary-kpi"><strong>${Math.round(volume).toLocaleString('it-IT')} kg</strong><small>Volume registrato</small></div><div class="gym-summary-kpi"><strong>${progressWins}</strong><small>Serie migliorate rispetto alla volta precedente</small></div><div class="gym-summary-kpi"><strong>${avgRpe}</strong><small>RPE medio</small></div><div class="gym-summary-kpi" style="grid-column:1/-1"><strong>${gymMode.supersets.length}</strong><small>Superserie A/B impostate</small></div></div><button class="btn btn-success" style="width:100%;min-height:54px;font-weight:900" onclick="gymModeSaveSummaryAndExit()">✓ Salva sessione nello storico e chiudi</button><button class="btn" style="width:100%;margin-top:9px;min-height:46px" onclick="gymMode.showSummary=false;renderGymMode()">Torna agli esercizi</button></div>`;
+      document.getElementById('gymModeContent').innerHTML=`<div class="gym-mode-card"><h2 style="text-align:center;margin-top:4px">🏁 Allenamento completato!</h2><p style="text-align:center;color:var(--text-muted)">Ottimo lavoro. Ecco il riepilogo della sessione.</p><div class="gym-summary-grid"><div class="gym-summary-kpi"><strong>${duration}</strong><small>Durata</small></div><div class="gym-summary-kpi"><strong>${exerciseDone}/${day.exercises.length}</strong><small>Esercizi svolti</small></div><div class="gym-summary-kpi"><strong>${Object.keys(gymMode.skippedExercises).length}</strong><small>Esercizi saltati</small></div><div class="gym-summary-kpi"><strong>${setCount}/${allSets}</strong><small>Serie completate</small></div><div class="gym-summary-kpi"><strong>${Math.round(volume).toLocaleString('it-IT')} kg</strong><small>Volume registrato</small></div><div class="gym-summary-kpi"><strong>${progressWins}</strong><small>Serie migliorate rispetto alla volta precedente</small></div><div class="gym-summary-kpi"><strong>${avgRpe}</strong><small>RPE medio</small></div><div class="gym-summary-kpi" style="grid-column:1/-1"><strong>${gymMode.supersets.length}</strong><small>Superserie A/B impostate</small></div></div><button class="btn btn-success" style="width:100%;min-height:54px;font-weight:900" onclick="gymModeSaveSummaryAndExit()">✓ Salva sessione nello storico e chiudi</button><button class="btn" style="width:100%;margin-top:9px;min-height:46px" onclick="gymMode.showSummary=false;renderGymMode()">Torna agli esercizi</button></div>`;
       const bottom=document.querySelector('.gym-mode-bottom');if(bottom)bottom.style.display='none';
     }
-    function gymModeSaveSummaryAndExit(){const id=gymMode.dayId;const meta={rpe:gymMode.rpe,notes:gymMode.notes,supersets:gymMode.supersets};const bottom=document.querySelector('.gym-mode-bottom');if(bottom)bottom.style.display='';logDaySession(id,meta);exitGymMode();}
+    function gymModeSaveSummaryAndExit(){const id=gymMode.dayId;const meta={rpe:gymMode.rpe,notes:gymMode.notes,supersets:gymMode.supersets,completedSets:gymMode.completedSets,skippedExercises:gymMode.skippedExercises,substitutions:gymMode.substitutions};const bottom=document.querySelector('.gym-mode-bottom');if(bottom)bottom.style.display='';logDaySession(id,meta);exitGymMode();}
 
     function gymModeCompareSet(current, previous) {
       const curKg=parseFloat(String(current.kg||'').replace(',','.'));
@@ -2883,16 +3053,21 @@
       }
 
       let totalVolume = 0;
-      const loggedExercises = day.exercises.map(item => {
-        const ex = getExerciseById(item.exId);
-        const setsCopy = item.sets.map(s => {
+      const loggedExercises = day.exercises.map((item, exerciseIndex) => {
+        if (gymMeta?.skippedExercises?.[exerciseIndex]) return null;
+        const loggedExId = gymMeta?.substitutions?.[exerciseIndex] || item.exId;
+        const ex = getExerciseById(loggedExId);
+        const setsCopy = item.sets.map((s, setIndex) => {
+          const wasCompleted = !gymMeta?.completedSets || !!gymMeta.completedSets[`${exerciseIndex}_${setIndex}`];
+          if (!wasCompleted) return null;
           const kgNum = parseFloat(String(s.kg || '').replace(',', '.')) || 0;
           const repsNum = parseInt(String(s.reps || '').replace(/\D/g, ''), 10) || 0;
           if (kgNum > 0 && repsNum > 0) totalVolume += kgNum * repsNum;
-          return { reps: s.reps, kg: s.kg || '', rpe: gymMeta?.rpe?.[`${day.exercises.indexOf(item)}_${item.sets.indexOf(s)}`] || '' };
-        });
-        return { exId: item.exId, name: ex.name, category: ex.category, note: gymMeta?.notes?.[day.exercises.indexOf(item)] || '', sets: setsCopy };
-      });
+          return { reps: s.reps, kg: s.kg || '', rpe: gymMeta?.rpe?.[`${exerciseIndex}_${setIndex}`] || '' };
+        }).filter(Boolean);
+        if (gymMeta?.completedSets && setsCopy.length===0) return null;
+        return { exId: loggedExId, originalExId: item.exId, replaced: loggedExId!==item.exId, name: ex.name, category: ex.category, note: gymMeta?.notes?.[exerciseIndex] || '', sets: setsCopy };
+      }).filter(Boolean);
 
       const now = new Date();
       const dateStr = now.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -3090,6 +3265,29 @@
       }).join('');
     }
 
+
+    function exerciseAtlasMarkup(ex){
+      const txt=((ex.name||'')+' '+(ex.muscle||'')).toLowerCase();
+      const hit=(patterns)=>patterns.some(p=>txt.includes(p));
+      const chest=hit(['petto','chest','pectoral','fly','croci']);
+      const back=hit(['dorso','schiena','lat','row','remator','pulley','trapez','rear delt']);
+      const shoulder=hit(['spalla','deltoid','shoulder','alzate','press']);
+      const arms=hit(['braccia','bicip','tricip','curl','pushdown','dip']);
+      const legs=hit(['gamba','quadric','femor','leg ','squat','pressa','affond','abductor','adductor','calf','polp','glute','hip thrust']);
+      const core=hit(['addom','core','torso','woodchopper','pallof']);
+      const highlight=(flag,cls='target')=>flag?cls:'body-part';
+      let focus=[]; if(chest)focus.push('Petto'); if(back)focus.push('Dorso'); if(shoulder)focus.push('Spalle'); if(arms)focus.push('Braccia'); if(legs)focus.push('Gambe / glutei'); if(core)focus.push('Core');
+      if(!focus.length)focus=[ex.muscle||'Muscoli coinvolti'];
+      let start='Stabilisci postura e appoggi; mantieni il movimento controllato e il carico gestibile.';
+      let finish='Completa la fase di lavoro senza slanci; ritorna lentamente alla posizione iniziale.';
+      if(legs){start='Piedi e ginocchia in linea; stabilizza bacino e schiena prima di iniziare.';finish='Spingi/estendi o fletti secondo la macchina, senza bloccare bruscamente le articolazioni.';}
+      if(back){start='Petto stabile e spalle basse; imposta presa e traiettoria prima della tirata.';finish='Tira verso il punto previsto senza compensare con il busto; ritorna lentamente.';}
+      if(chest||shoulder){start='Scapole e tronco stabili; impugnatura e gomiti in posizione comoda.';finish='Spingi o solleva seguendo la traiettoria, senza inarcare la schiena né bloccare i gomiti.';}
+      if(arms){start='Gomiti stabili e spalle rilassate; evita di oscillare.';finish='Fletti/estendi il braccio controllando anche la fase di ritorno.';}
+      const svg=`<svg class="atlas-figure" viewBox="0 0 100 140" aria-label="Schema muscolare indicativo"><circle cx="50" cy="13" r="9" class="body-part"/><path d="M39 25 Q50 21 61 25 L65 49 Q60 56 58 65 L42 65 Q40 56 35 49 Z" class="body-part"/><path d="M36 28 L24 35 L18 57 L23 60 L32 43 L40 37 Z M64 28 L76 35 L82 57 L77 60 L68 43 L60 37 Z" class="body-part"/><path d="M43 65 L36 91 L34 119 L43 121 L47 92 L50 74 Z M57 65 L64 91 L66 119 L57 121 L53 92 L50 74 Z" class="body-part"/><path d="M40 27 Q50 24 60 27 L60 42 Q50 47 40 42 Z" class="${highlight(chest)}"/><path d="M38 29 L34 35 L40 39 L44 33 Z M62 29 L66 35 L60 39 L56 33 Z" class="${highlight(shoulder,'target-soft')}"/><path d="M23 36 L19 53 L25 55 L31 42 Z M77 36 L81 53 L75 55 L69 42 Z" class="${highlight(arms,'target-soft')}"/><path d="M43 66 L38 90 L44 92 L48 75 Z M57 66 L62 90 L56 92 L52 75 Z" class="${highlight(legs)}"/><path d="M38 92 L35 116 L42 117 L46 94 Z M62 92 L65 116 L58 117 L54 94 Z" class="${highlight(legs,'target-soft')}"/><path d="M44 44 L56 44 L55 60 L45 60 Z" class="${highlight(core,'target-soft')}"/><path d="M40 26 Q50 23 60 26 L57 40 L43 40 Z" class="${highlight(back,'target-soft')}" opacity=".45"/><text x="50" y="136" text-anchor="middle" font-size="6" fill="currentColor">SCHEMA INDICATIVO</text></svg>`;
+      return `<div class="exercise-atlas">${svg}<div><div class="atlas-legend">ATLANTE MUSCOLARE · INDICATIVO</div><div class="atlas-muscles">${focus.join(' · ')}</div><div class="atlas-steps"><div class="atlas-step"><b>1 · Posizione iniziale</b>${start}</div><div class="atlas-step"><b>2 · Movimento</b>${finish}</div></div></div></div>`;
+    }
+
     function renderExerciseCard(dayId, item, idx, totalRows) {
       const ex = getExerciseById(item.exId);
       const svgMarkup = SVG_ICONS[ex.svg] || SVG_ICONS.bench_press;
@@ -3149,6 +3347,7 @@
             <div class="ex-illustration" title="${escapeHtml(ex.name)}">
               ${svgMarkup}
             </div>
+            ${exerciseAtlasMarkup(ex)}
             <div class="ex-info">
               <div class="ex-name">${escapeHtml(ex.name)}</div>
               <div class="ex-muscle">${escapeHtml(ex.muscle)}</div>
