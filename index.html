@@ -721,7 +721,10 @@
     [data-theme="light"] .diff-2 { color: #b45309; }
     [data-theme="light"] .diff-3 { color: #be123c; }
 
+    .ex-card-main > .ex-info { flex: 1 1 0; min-width: 160px; }
     .ex-name {
+      writing-mode: horizontal-tb;
+      overflow-wrap: break-word;
       font-size: 1.15rem;
       font-weight: 900;
       color: var(--text-main);
@@ -3376,13 +3379,13 @@
             <div class="ex-illustration" title="${escapeHtml(ex.name)}">
               ${svgMarkup}
             </div>
-            ${exerciseAtlasMarkup(ex)}
             <div class="ex-info">
               <div class="ex-name">${escapeHtml(ex.name)}</div>
               <div class="ex-muscle">${escapeHtml(ex.muscle)}</div>
               <input type="text" class="ex-note-input" value="${escapeHtml(item.note || '')}" placeholder="Nota tecnica (es. TUT 3-1-1, fermo al petto)..." oninput="updateExerciseNote('${dayId}', ${idx}, this.value)" />
             </div>
           </div>
+          ${exerciseAtlasMarkup(ex)}
           <div class="no-print" style="margin:8px 0 4px">
             <button class="btn btn-sm" onclick="toggleDaySuperset('${dayId}',${idx})">${daySupersetFor(state.days.find(d=>d.id===dayId),idx)?'🔗 Rimuovi abbinamento superserie':'🔗 Abbina in superserie con esercizio successivo'}</button>
             ${daySupersetFor(state.days.find(d=>d.id===dayId),idx)?'<span style="font-size:.78rem;color:var(--brand-secondary);font-weight:800;margin-left:7px">A1 ↔ A2</span>':''}
