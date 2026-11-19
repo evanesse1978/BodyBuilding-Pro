@@ -1568,7 +1568,7 @@
             ⭐ Le Mie Schede (<span id="modalSavedCount">0</span>)
           </button>
           <button class="modal-tab-btn" id="tabDefaultPrograms" onclick="switchProgramsTab('default')">
-            📋 Schede Default (5)
+            📋 Schede Default (30)
           </button>
         </div>
         <div id="programsModalContent"></div>
@@ -1971,7 +1971,7 @@
     ];
 
     // =========================================================================
-    // 3. SCHEDE PREIMPOSTATE DI DEFAULT (5 PROGRAMMI COMPLETI)
+    // 3. SCHEDE PREIMPOSTATE DI DEFAULT (30 PROGRAMMI COMPLETI)
     // =========================================================================
     const PRESET_PROGRAMS = [
       {
@@ -2215,6 +2215,58 @@
         ]
       }
     ];
+
+    // =========================================================================
+    // 3B. ESPANSIONE LIBRERIA: 25 PROGRAMMI AGGIUNTIVI (30 TOTALI)
+    // Schede generate con esercizi già presenti nel catalogo, con split e parametri
+    // diversificati per obiettivo, livello e frequenza.
+    // =========================================================================
+    const EXTRA_PRESET_DEFINITIONS = [
+      ['fullbody3_beginner','Full Body Principiante','Principiante','Condizionamento & Tonificazione','3 Giorni','3 giorni • Base tecnica', [['p1','d3','g1','s2','b1','a5'],['p5','d7','g6','s5','t2','a1'],['p2','d5','g3','s3','b4','a5']]],
+      ['fatloss_weights','Dimagrimento + Pesi','Intermedio','Definizione & Ricomposizione','4 Giorni','4 giorni • Pesi e densità', [['p1','d3','g1','s5','t2','a2'],['p5','d7','g6','s2','b2','a5'],['p3','d5','g7','s8','t1','a3'],['p6','d4','g11','s4','b8','a6']]],
+      ['definition4','Definizione 4 Giorni','Intermedio','Definizione & Ricomposizione','4 Giorni','4 giorni • Volume controllato', [['p1','p5','p7','t2','a2'],['d3','d5','d7','b2','a5'],['g1','g6','g7','g14','a3'],['s2','s5','s8','t1','b4']]],
+      ['recomp','Ricomposizione Corporea','Intermedio','Definizione & Ricomposizione','4 Giorni','4 giorni • Full body distribuita', [['p1','d3','g1','s2','a5'],['p5','d7','g6','b2','t2'],['p2','d5','g7','s5','a2'],['p6','d4','g11','b4','t1']]],
+      ['fivebyfive','Forza 5×5','Intermedio','Forza Massimale & Powerbuilding','3 Giorni','3 giorni • Metodo 5x5', [['p1','d5','g1','s2'],['p1','d3','g7','s3'],['p2','d8','g4','s2']]],
+      ['powerbuilding','Powerbuilding','Avanzato','Forza Massimale & Powerbuilding','4 Giorni','4 giorni • Forza e complementari', [['p1','p5','s2','t1'],['d5','d3','b2','s10'],['g1','g7','g6','a5'],['p2','d8','g11','b4']]],
+      ['classicbb','Bodybuilding Classico','Intermedio','Ipertrofia & Massa Muscolare','5 Giorni','5 giorni • Split classica', [['p1','p5','p7','p9'],['d3','d5','d7','d8'],['s2','s5','s8','s10'],['g1','g7','g6','g14'],['b2','b4','t1','t2','a2']]],
+      ['bro_split','Bro Split 5 Giorni','Intermedio','Ipertrofia & Massa Muscolare','5 Giorni','5 giorni • Un focus per seduta', [['p1','p5','p7','p9','t2'],['d3','d5','d7','d8','b2'],['g1','g7','g6','g14','a5'],['s2','s5','s8','s10'],['b2','b4','b8','t1','t2']]],
+      ['arnold_split','Arnold Split','Avanzato','Ipertrofia & Massa Muscolare','6 Giorni','6 giorni • Split Arnold', [['p1','p5','p7','p9'],['d3','d5','d7','d8'],['s2','s5','s8','s10','t1'],['g1','g7','g6','g14'],['p2','p6','d4','d9'],['s3','s6','b2','b4','t2']]],
+      ['upper_special','Upper Body Specializzazione','Intermedio','Ipertrofia & Massa Muscolare','4 Giorni','4 giorni • Priorità parte superiore', [['p1','p5','d3','d5','s2','b2'],['g1','g7','g6','a5'],['p2','p6','d7','s5','t2'],['d8','d4','s8','b4','t1']]],
+      ['lower_special','Lower Body Specializzazione','Intermedio','Ipertrofia & Massa Muscolare','4 Giorni','4 giorni • Priorità gambe', [['g1','g7','g6','g14','a5'],['p1','d3','s2','t2'],['g3','g11','g8','g9','a3'],['p5','d5','b2','a2']]],
+      ['glutes_legs','Glutei & Gambe','Intermedio','Ipertrofia & Massa Muscolare','3 Giorni','3 giorni • Glutei prioritari', [['g6','g11','g7','g14','a5'],['p1','d3','s2','b2'],['g1','g3','g8','g9','a3']]],
+      ['chest_arms','Petto & Braccia','Intermedio','Ipertrofia & Massa Muscolare','3 Giorni','3 giorni • Specializzazione estetica', [['p1','p5','p7','t2','t1'],['d3','d5','b2','b4','b8'],['p2','p6','t3','t4','b5']]],
+      ['back_shoulders','Schiena & Spalle V-Shape','Intermedio','Ipertrofia & Massa Muscolare','3 Giorni','3 giorni • Ampiezza e deltoidi', [['d3','d4','d5','d7','s10'],['p1','p5','g1','t2'],['d8','d9','s2','s5','s8']]],
+      ['strength_base','Forza Base 3 Giorni','Principiante','Forza Massimale & Powerbuilding','3 Giorni','3 giorni • Fondamentali', [['g1','p1','d5','a5'],['g7','p2','d3','s2'],['g4','p1','d8','a2']]],
+      ['hypertrophy4','Ipertrofia 4 Giorni','Intermedio','Ipertrofia & Massa Muscolare','4 Giorni','4 giorni • Volume bilanciato', [['p1','p5','d3','d5','s2','t2'],['g1','g7','g6','a5'],['p2','p6','d7','s5','b2'],['g3','g11','g14','b4','t1']]],
+      ['hypertrophy5','Ipertrofia 5 Giorni','Avanzato','Ipertrofia & Massa Muscolare','5 Giorni','5 giorni • Frequenza elevata', [['p1','p5','p7','t2'],['d3','d5','d7','b2'],['g1','g7','g6','a5'],['s2','s5','s8','s10'],['p2','d8','g11','b4','t1']]],
+      ['superset','Superset & Densità','Intermedio','Condizionamento & Tonificazione','3 Giorni','3 giorni • Coppie antagoniste', [['p1','d3','p5','d7','t2','b2'],['g1','g6','g7','a2','a5'],['s2','s8','p2','d5','t1','b4']]],
+      ['weights_cardio','Pesi + Cardio','Principiante','Condizionamento & Tonificazione','4 Giorni','4 giorni • Fitness generale', [['p1','d3','g1','a5','w1'],['p5','d7','g6','a2','w2'],['p2','d5','g7','s2','w1'],['g3','g11','b2','t2','w1']]],
+      ['hiit_circuit','HIIT & Circuito','Intermedio','Condizionamento & Tonificazione','3 Giorni','3 giorni • Circuiti metabolici', [['g1','p1','d3','a5','w1'],['g6','p5','d7','a2','w2'],['g11','p2','d5','a3','w1']]],
+      ['home_workout','Home Workout','Principiante','Condizionamento & Tonificazione','3 Giorni','3 giorni • Attrezzatura minima', [['p8','d1','g11','a5','a1'],['p7','d2','g6','a2','a6'],['p10','d6','g3','a4','a5']]],
+      ['dumbbells','Solo Manubri','Intermedio','Ipertrofia & Massa Muscolare','4 Giorni','4 giorni • Manubri e panca', [['p5','p7','s5','t8'],['d7','d9','b4','b8'],['g11','g3','g6','a5'],['p6','d10','s3','t4','b5']]],
+      ['calisthenics','Calisthenics Base','Principiante','Condizionamento & Tonificazione','3 Giorni','3 giorni • Corpo libero', [['p8','d1','a5','a6'],['g11','g3','a3','a1'],['p7','d2','g6','a7']]],
+      ['functional','Functional Training','Intermedio','Condizionamento & Tonificazione','3 Giorni','3 giorni • Stabilità e movimento', [['g11','p8','d1','a5','w6'],['g3','p7','d2','a6','w2'],['g6','p10','d6','a3','w1']]],
+      ['sustainable3','Fitness 3 Giorni Sostenibile','Principiante','Condizionamento & Tonificazione','3 Giorni','3 giorni • Equilibrato e sostenibile', [['p1','d3','g1','a5'],['p5','d7','g6','a2'],['p2','d5','g7','s2','a6']]]
+    ];
+
+    function buildExtraPreset(def, index) {
+      const [id,title,difficulty,goal,frequency,duration,dayExercises] = def;
+      const dayNames = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+      const days = dayExercises.map((list, dayIndex) => ({
+        id: `${id}_day${dayIndex+1}`, name: `Giorno ${dayIndex+1} (${dayNames[dayIndex]})`,
+        focus: `${title} — Sessione ${dayIndex+1}`,
+        exercises: list.map((exId, exIndex) => ({
+          exId, rest: exId.startsWith('g') || exId==='p1' || exId==='d5' ? '120s' : '75s',
+          note: 'Tecnica controllata, lascia 1–2 ripetizioni in riserva',
+          sets: Array.from({length: (exIndex===0 && ['fivebyfive','strength_base'].includes(id)) ? 5 : 3}, (_,setIndex) => ({
+            reps: (['fivebyfive','strength_base'].includes(id) && exIndex===0) ? '5' : (exId.startsWith('a') ? '15' : (exId.startsWith('g') && exId==='g1' ? '8–10' : '10–12')),
+            kg: ''
+          }))
+        }))
+      }));
+      return { id, badge: `${difficulty} • ${frequency}`, title, goal, difficulty, duration, days };
+    }
+    PRESET_PROGRAMS.push(...EXTRA_PRESET_DEFINITIONS.map(buildExtraPreset));
 
     // =========================================================================
     // 4. STATO APPLICAZIONE, LIBRERIA SCHEDE PERSONALI & LOCALSTORAGE
