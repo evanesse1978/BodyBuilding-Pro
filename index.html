@@ -1691,6 +1691,29 @@
     </div>
   </div>
 
+  <!-- MODAL: SPOSTA SEDUTA A UN ALTRO GIORNO -->
+  <div class="modal-backdrop" id="moveDayModal" onclick="closeModalOnBackdrop(event, 'moveDayModal')">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3>📅 Sposta seduta</h3>
+        <button class="btn btn-sm" onclick="closeModal('moveDayModal')">✕</button>
+      </div>
+      <div class="modal-body" id="moveDayBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: SCELTA GIORNI SETTIMANA PER SCHEDA DEFAULT -->
+  <div class="modal-backdrop" id="presetDaysModal" onclick="closeModalOnBackdrop(event, 'presetDaysModal')">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3>📅 In quali giorni ti alleni?</h3>
+        <button class="btn btn-sm" onclick="closeModal('presetDaysModal')">✕</button>
+      </div>
+      <div class="modal-body" id="presetDaysBody"></div>
+    </div>
+  </div>
+
+
   <!-- MODAL: INSTALLA APP -->
   <div class="modal-backdrop" id="installModal" onclick="closeModalOnBackdrop(event, 'installModal')">
     <div class="modal modal-sm">
@@ -3216,6 +3239,67 @@
       renderAll();
     }
 
+    // ---- Sposta una seduta su un altro giorno della settimana (o scambia due sedute) ----
+    let movingDayId = null;
+
+    function sortDaysByWeekday() {
+      state.days.sort((a, b) => {
+        const ia = WEEKDAYS.indexOf(a.id);
+        const ib = WEEKDAYS.indexOf(b.id);
+        if (ia === -1 && ib === -1) return 0;
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+    }
+
+    function openMoveDay(dayId) {
+      const day = state.days.find(d => d.id === dayId);
+      if (!day) return;
+      movingDayId = dayId;
+      const chips = WEEKDAYS.map(w => {
+        const other = state.days.find(d => d.id === w);
+        const isCurrent = w === dayId;
+        let hint = 'libero';
+        if (isCurrent) hint = 'giorno attuale';
+        else if (other) hint = 'scambia con: ' + (other.focus || other.name);
+        return `<button class="day-chip ${isCurrent ? 'active' : ''}" ${isCurrent ? 'disabled' : ''} style="display:flex; flex-direction:column; align-items:flex-start; gap:2px; border-radius:12px; text-align:left; ${isCurrent ? 'opacity:.7; cursor:default;' : ''}" onclick="moveDayTo('${w}')">
+          <span>${w}</span>
+          <span style="font-size:.72rem; font-weight:600; opacity:.8;">${escapeHtml(hint)}</span>
+        </button>`;
+      }).join('');
+      document.getElementById('moveDayBody').innerHTML = `
+        <p style="font-size:.88rem; color:var(--text-muted); margin-bottom:12px;">
+          Sposti <strong>${escapeHtml(day.name)}</strong>${day.focus ? ' — ' + escapeHtml(day.focus) : ''}. Se il giorno scelto è già occupato, le due sedute si scambiano di posto.
+        </p>
+        <div class="weekday-toggles">${chips}</div>
+      `;
+      openModal('moveDayModal');
+    }
+
+    function moveDayTo(target) {
+      const day = state.days.find(d => d.id === movingDayId);
+      if (!day || day.id === target) return;
+      const oldId = day.id;
+      const other = state.days.find(d => d.id === target);
+
+      if (other) {
+        other.id = oldId;
+        if (WEEKDAYS.includes(oldId)) other.name = oldId;
+      }
+      day.id = target;
+      day.name = target;
+
+      if (gymMode && gymMode.dayId === oldId) gymMode.dayId = target;
+      sortDaysByWeekday();
+      activeDayId = activeDayId === 'ALL' ? 'ALL' : target;
+      movingDayId = null;
+      saveState();
+      renderAll();
+      closeModal('moveDayModal');
+      showToast(other ? `Scambiati: ${oldId} ⇄ ${target}` : `Seduta spostata a ${target}`);
+    }
+
     function addCustomDay() {
       const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
       const nextLetter = letters[state.days.length % letters.length];
@@ -3287,6 +3371,9 @@
                 </button>
                 <button class="btn btn-primary" onclick="openCatalog('${day.id}')">
                   + Aggiungi Esercizio
+                </button>
+                <button class="btn" onclick="openMoveDay('${day.id}')" title="Sposta questa seduta a un altro giorno della settimana">
+                  📅 Sposta
                 </button>
                 ${state.days.length > 1 ? `<button class="btn btn-danger-ghost" title="Rimuovi giorno" onclick="removeDay('${day.id}')">🗑️</button>` : ''}
               </div>
@@ -3867,7 +3954,7 @@
                   <p style="font-size:0.84rem; color:var(--text-muted);">${escapeHtml(p.duration)} • Obiettivo: ${escapeHtml(p.goal)}</p>
                   <div style="margin-top:8px; font-size:0.8rem; color:var(--text-dim);">Giorni: ${p.days.map(d => d.name).join(', ')}</div>
                 </div>
-                <button class="btn btn-primary" onclick="loadPresetProgram('${p.id}')">Usa Scheda Default</button>
+                <button class="btn btn-primary" onclick="openPresetDaysPicker('${p.id}')">Usa Scheda Default</button>
               </div>
             `).join('')}
           </div>
@@ -3875,9 +3962,85 @@
       }
     }
 
-    function loadPresetProgram(presetId) {
+    // Giorni suggeriti di default in base al numero di sedute
+    const DEFAULT_WEEKDAY_PATTERNS = {
+      1: ['Lunedì'],
+      2: ['Lunedì', 'Giovedì'],
+      3: ['Lunedì', 'Mercoledì', 'Venerdì'],
+      4: ['Lunedì', 'Martedì', 'Giovedì', 'Venerdì'],
+      5: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'],
+      6: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'],
+      7: WEEKDAYS.slice()
+    };
+    let pendingPresetId = null;
+    let pendingPresetDays = [];
+
+    function openPresetDaysPicker(presetId) {
       const p = PRESET_PROGRAMS.find(x => x.id === presetId);
       if (!p) return;
+      pendingPresetId = presetId;
+      pendingPresetDays = (DEFAULT_WEEKDAY_PATTERNS[p.days.length] || WEEKDAYS.slice(0, p.days.length)).slice();
+      renderPresetDaysPicker();
+      openModal('presetDaysModal');
+    }
+
+    function renderPresetDaysPicker() {
+      const p = PRESET_PROGRAMS.find(x => x.id === pendingPresetId);
+      if (!p) return;
+      const need = p.days.length;
+      const have = pendingPresetDays.length;
+      const ok = have === need;
+      const ordered = WEEKDAYS.filter(d => pendingPresetDays.includes(d));
+      const preview = p.days.map((d, i) => `<li><strong>${escapeHtml(ordered[i] || '—')}</strong> → ${escapeHtml(d.focus || d.name)}</li>`).join('');
+      document.getElementById('presetDaysBody').innerHTML = `
+        <p style="font-size:.88rem; color:var(--text-muted); margin-bottom:10px;">
+          <strong>${escapeHtml(p.title)}</strong> prevede <strong>${need}</strong> ${need === 1 ? 'seduta' : 'sedute'} a settimana. Scegli ${need} ${need === 1 ? 'giorno' : 'giorni'}.
+        </p>
+        <div class="weekday-toggles" style="margin-bottom:12px;">
+          ${WEEKDAYS.map(d => {
+            const on = pendingPresetDays.includes(d);
+            return `<button class="day-chip ${on ? 'active' : ''}" onclick="togglePresetDay('${d}')">${on ? '✓ ' : '+ '}${d.slice(0, 3)}</button>`;
+          }).join('')}
+        </div>
+        <div style="font-size:.82rem; font-weight:800; margin-bottom:8px; color:${ok ? 'var(--brand-secondary)' : 'var(--text-muted)'};">
+          Selezionati ${have} / ${need}
+        </div>
+        <ul style="font-size:.82rem; color:var(--text-muted); margin:0 0 14px 18px; display:grid; gap:3px;">${preview}</ul>
+        <button class="btn btn-primary" style="width:100%; ${ok ? '' : 'opacity:.45; cursor:not-allowed;'}" ${ok ? '' : 'disabled'} onclick="confirmPresetDays()">Carica scheda</button>
+      `;
+    }
+
+    function togglePresetDay(day) {
+      const p = PRESET_PROGRAMS.find(x => x.id === pendingPresetId);
+      if (!p) return;
+      const idx = pendingPresetDays.indexOf(day);
+      if (idx >= 0) {
+        pendingPresetDays.splice(idx, 1);
+      } else {
+        if (pendingPresetDays.length >= p.days.length) {
+          showToast(`Questa scheda ha ${p.days.length} sedute: deseleziona prima un altro giorno.`);
+          return;
+        }
+        pendingPresetDays.push(day);
+      }
+      renderPresetDaysPicker();
+    }
+
+    function confirmPresetDays() {
+      const p = PRESET_PROGRAMS.find(x => x.id === pendingPresetId);
+      if (!p || pendingPresetDays.length !== p.days.length) return;
+      const chosen = WEEKDAYS.filter(d => pendingPresetDays.includes(d));
+      closeModal('presetDaysModal');
+      loadPresetProgram(pendingPresetId, chosen);
+    }
+
+    function loadPresetProgram(presetId, weekdays) {
+      const p = PRESET_PROGRAMS.find(x => x.id === presetId);
+      if (!p) return;
+      const days = JSON.parse(JSON.stringify(p.days));
+      if (Array.isArray(weekdays) && weekdays.length === days.length) {
+        days.forEach((d, i) => { d.id = weekdays[i]; d.name = weekdays[i]; });
+      }
       state = {
         savedId: null,
         title: p.title,
@@ -3885,7 +4048,7 @@
         difficulty: p.difficulty,
         goal: p.goal,
         duration: p.duration,
-        days: JSON.parse(JSON.stringify(p.days))
+        days
       };
       activeDayId = state.days[0].id;
       saveState();
