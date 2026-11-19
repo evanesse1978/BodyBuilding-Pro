@@ -1568,7 +1568,7 @@
             ⭐ Le Mie Schede (<span id="modalSavedCount">0</span>)
           </button>
           <button class="modal-tab-btn" id="tabDefaultPrograms" onclick="switchProgramsTab('default')">
-            📋 Schede Default (30)
+            📋 Schede Default (50)
           </button>
         </div>
         <div id="programsModalContent"></div>
@@ -2268,6 +2268,32 @@
     }
     PRESET_PROGRAMS.push(...EXTRA_PRESET_DEFINITIONS.map(buildExtraPreset));
 
+    // 3C. ULTERIORI 20 SCHEDE SPECIALISTICHE (50 TOTALI)
+    const MORE_PRESET_DEFINITIONS = [
+      ['cut_circuit3','Circuito Brucia-Grassi 3 Giorni','Principiante','Dimagrimento','3 Giorni','3 giorni • Circuito full body', [['g11','p8','d1','a5','w1'],['g3','p7','d2','a2','w2'],['g6','p10','d6','a3','w1']]],
+      ['cut_4','Dimagrimento Progressivo 4 Giorni','Intermedio','Dimagrimento','4 Giorni','4 giorni • Pesi e cardio', [['p1','d3','g1','a5'],['p5','d7','g6','w1'],['p2','d5','g7','a2'],['g3','g11','b2','w2']]],
+      ['metabolic','Metabolic Training','Intermedio','Dimagrimento','3 Giorni','3 giorni • Densità e condizionamento', [['g1','p1','d3','a5','w1'],['g6','p5','d7','a2','w2'],['g11','p2','d5','a3','w1']]],
+      ['lean_muscle','Lean Muscle 4 Giorni','Intermedio','Definizione','4 Giorni','4 giorni • Definizione e mantenimento forza', [['p1','p5','d3','s2'],['g1','g7','g6','a5'],['p2','p6','d7','b2'],['g3','g11','s5','t2']]],
+      ['definition_5','Definizione Avanzata 5 Giorni','Avanzato','Definizione','5 Giorni','5 giorni • Split e volume mirato', [['p1','p5','p7','t2'],['d3','d5','d7','b2'],['g1','g7','g6','a5'],['s2','s5','s8','s10'],['p2','d8','g11','b4']]],
+      ['mass_3','Massa Muscolare 3 Giorni','Intermedio','Massa Muscolare','3 Giorni','3 giorni • Multi-frequenza', [['p1','d3','g1','s2','b2'],['p5','d7','g6','s5','t2'],['p2','d5','g7','s3','b4']]],
+      ['mass_6','Ipertrofia 6 Giorni','Avanzato','Massa Muscolare','6 Giorni','6 giorni • Push Pull Legs x2', [['p1','p5','p7','t2'],['d3','d5','d7','b2'],['g1','g7','g6','a5'],['p2','p6','s2','t1'],['d8','d4','s5','b4'],['g3','g11','g14','a2']]],
+      ['chest_focus','Specializzazione Petto','Avanzato','Massa Muscolare','4 Giorni','4 giorni • Priorità pettorali', [['p1','p5','p7','p9','t2'],['d3','d5','g1','a5'],['p2','p6','p4','t1'],['g7','g6','s2','b2']]],
+      ['back_focus','Specializzazione Schiena','Avanzato','Massa Muscolare','4 Giorni','4 giorni • Spessore e ampiezza', [['d3','d5','d7','d8','d4'],['p1','p5','g1','a5'],['d9','d10','s10','b2'],['g7','g6','s2','t2']]],
+      ['arms_focus','Braccia Specializzazione','Intermedio','Massa Muscolare','4 Giorni','4 giorni • Bicipiti e tricipiti', [['b1','b2','b4','t1','t2'],['p1','d3','g1','a5'],['b5','b6','b8','t3','t4'],['p5','d7','g6','s2']]],
+      ['shoulder_focus','Spalle 3D','Avanzato','Massa Muscolare','4 Giorni','4 giorni • Deltoidi completi', [['s2','s5','s8','s10'],['p1','d3','g1','a5'],['s3','s4','s6','s7'],['d5','g7','b2','t2']]],
+      ['quad_focus','Quadricipiti & Forza','Intermedio','Forza','4 Giorni','4 giorni • Focus squat e quadricipiti', [['g1','g3','g4','g14'],['p1','d3','s2','a5'],['g8','g9','g11','a3'],['p5','d7','g6','b2']]],
+      ['posterior','Catena Posteriore','Intermedio','Forza','3 Giorni','3 giorni • Glutei e femorali', [['g7','g6','g11','a5'],['p1','d3','s2','t2'],['g3','g8','g9','a2']]],
+      ['power_4','Powerlifting Base 4 Giorni','Intermedio','Forza','4 Giorni','4 giorni • Squat panca stacco', [['g1','a5','g14'],['p1','d5','b2'],['g7','g3','a2'],['p1','s2','d3','t1']]],
+      ['strength_upperlower','Strength Upper Lower','Avanzato','Forza','4 Giorni','4 giorni • Upper lower forza', [['p1','d5','s2','b2'],['g1','g7','a5'],['p2','d3','s3','t1'],['g3','g11','g6','a2']]],
+      ['beginner_2','Principiante 2 Giorni','Principiante','Fitness Generale','2 Giorni','2 giorni • Full body essenziale', [['p1','d3','g1','s2','a5'],['p5','d7','g6','b2','a2']]],
+      ['beginner_4','Primi 4 Giorni in Palestra','Principiante','Fitness Generale','4 Giorni','4 giorni • Progressione semplice', [['p1','d3','g1','a5'],['p5','d7','g6','a2'],['p2','d5','g7','s2'],['g3','g11','b2','t2']]],
+      ['home_band','Home Fitness Attrezzatura Minima','Principiante','Allenamento a Casa','3 Giorni','3 giorni • Corpo libero e accessori', [['p8','d1','g11','a5','a1'],['p7','d2','g6','a2','a6'],['p10','d6','g3','a4','a5']]],
+      ['mobility_fitness','Fitness + Mobilità','Principiante','Fitness Generale','3 Giorni','3 giorni • Forza e mobilità', [['w3','p1','d3','g1','a5'],['w5','p5','d7','g6','a2'],['w6','p2','d5','g7','a6']]],
+      ['athletic','Preparazione Atletica Generale','Avanzato','Fitness Generale','4 Giorni','4 giorni • Forza e condizionamento', [['g1','p1','d3','a5','w1'],['g7','p5','d5','a2','w2'],['g11','p2','d7','s2','a3'],['g3','p6','d8','s5','b4']]]
+    ];
+    PRESET_PROGRAMS.push(...MORE_PRESET_DEFINITIONS.map(buildExtraPreset));
+
+
     // =========================================================================
     // 4. STATO APPLICAZIONE, LIBRERIA SCHEDE PERSONALI & LOCALSTORAGE
     // =========================================================================
@@ -2474,12 +2500,36 @@
         timerSecondsLeft--;
         if (timerSecondsLeft <= 0) {
           stopRestTimer();
+          playRestTimerAlarm();
           showToast('⏱️ Recupero terminato! Pronti per la prossima serie!');
           if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
         } else {
           updateTimerDisplay();
         }
       }, 1000);
+    }
+
+    function playRestTimerAlarm() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+        const tones = [880, 660, 880];
+        tones.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.22);
+          gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + i * 0.22 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.22 + 0.16);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.22);
+          osc.stop(ctx.currentTime + i * 0.22 + 0.18);
+        });
+        setTimeout(() => ctx.close().catch(() => {}), 1100);
+      } catch (e) { /* audio non disponibile: resta attiva la notifica visiva/vibrazione */ }
     }
 
     function adjustTimer(delta) {
@@ -3150,6 +3200,9 @@
     // =========================================================================
     // 12. MODALE LIBRERIA SCHEDE PERSONALI & DEFAULT
     // =========================================================================
+    let presetDifficultyFilter = 'Tutte';
+    let presetGoalFilter = 'Tutti';
+
     function openProgramsModal(initialTab = 'saved') {
       currentProgramsTab = initialTab;
       updateSavedProgramsBadge();
@@ -3213,17 +3266,35 @@
           </div>
         `;
       } else {
+        const difficultyOptions = ['Tutte', ...new Set(PRESET_PROGRAMS.map(p => p.difficulty))];
+        const goalOptions = ['Tutti', ...new Set(PRESET_PROGRAMS.map(p => p.goal))];
+        const filteredPresets = PRESET_PROGRAMS.filter(p =>
+          (presetDifficultyFilter === 'Tutte' || p.difficulty === presetDifficultyFilter) &&
+          (presetGoalFilter === 'Tutti' || p.goal === presetGoalFilter)
+        );
         container.innerHTML = `
+          <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:end; margin:0 0 16px; padding:12px; border:1px solid var(--border); border-radius:12px;">
+            <label style="display:flex; flex-direction:column; gap:5px; font-size:.82rem; font-weight:700;">Difficoltà
+              <select onchange="presetDifficultyFilter=this.value; renderProgramsModalContent();" style="min-width:150px; padding:9px; border-radius:8px;">
+                ${difficultyOptions.map(v => `<option value="${escapeHtml(v)}" ${presetDifficultyFilter===v?'selected':''}>${escapeHtml(v)}</option>`).join('')}
+              </select>
+            </label>
+            <label style="display:flex; flex-direction:column; gap:5px; font-size:.82rem; font-weight:700;">Obiettivo
+              <select onchange="presetGoalFilter=this.value; renderProgramsModalContent();" style="min-width:190px; padding:9px; border-radius:8px;">
+                ${goalOptions.map(v => `<option value="${escapeHtml(v)}" ${presetGoalFilter===v?'selected':''}>${escapeHtml(v)}</option>`).join('')}
+              </select>
+            </label>
+            <span style="font-size:.82rem; color:var(--text-muted); padding-bottom:7px;">${filteredPresets.length} schede trovate su ${PRESET_PROGRAMS.length}</span>
+            <button class="btn btn-sm" onclick="presetDifficultyFilter='Tutte'; presetGoalFilter='Tutti'; renderProgramsModalContent();">Reset filtri</button>
+          </div>
           <div class="catalog-grid">
-            ${PRESET_PROGRAMS.map(p => `
+            ${filteredPresets.map(p => `
               <div class="preset-card">
                 <div>
                   <span class="esse-badge" style="margin-bottom:8px; display:inline-block;">${escapeHtml(p.badge)}</span>
                   <h4 style="font-size:1.05rem; font-weight:800; margin-bottom:4px;">${escapeHtml(p.title)}</h4>
                   <p style="font-size:0.84rem; color:var(--text-muted);">${escapeHtml(p.duration)} • Obiettivo: ${escapeHtml(p.goal)}</p>
-                  <div style="margin-top:8px; font-size:0.8rem; color:var(--text-dim);">
-                    Giorni: ${p.days.map(d => d.name).join(', ')}
-                  </div>
+                  <div style="margin-top:8px; font-size:0.8rem; color:var(--text-dim);">Giorni: ${p.days.map(d => d.name).join(', ')}</div>
                 </div>
                 <button class="btn btn-primary" onclick="loadPresetProgram('${p.id}')">Usa Scheda Default</button>
               </div>
